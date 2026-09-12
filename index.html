@@ -1,0 +1,995 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="author" content="UCL · NCEO">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Weekly in-season maize yield and area forecast for the core US Corn Belt.">
+<title>US Maize — In-Season Yield &amp; Area Forecast 2026</title>
+<link rel="icon" href="data:,">
+<link rel="preconnect" href="https://rsms.me" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lib/maplibre-gl.css">
+<style>
+@import url('https://rsms.me/inter/inter.css');
+:root{
+  color-scheme: light;
+  --page:#F7F9FC; --surface:#FFFFFF; --ink:#111620; --ink2:#5F6878; --muted:#8A92A1;
+  --grid:#E6ECF1; --baseline:#C9D2E0; --ring:#D6DCE5; --accent:#2F6FD0;
+  --chart-a:#2F6FD0; --signal:#6A86B6;
+  --corn:#c1860a; --soy:#3c7a39; --other:#d3ccbb;
+  --up:#1E7A34; --down:#C63D3D;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    color-scheme: dark;
+    --page:#0A0D12; --surface:#141A24; --ink:#F2F5F9; --ink2:#B9C3D2; --muted:#8A92A1;
+    --grid:#232B38; --baseline:#2E3745; --ring:rgba(230,236,241,.14); --accent:#5B8DE0;
+    --chart-a:#5B8DE0; --signal:#7E9CD6;
+    --corn:#e0a52a; --soy:#6cbf6f; --other:#4a463c;
+    --up:#3BA55C; --down:#E06C6C;
+  }
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--page);color:var(--ink);
+  font-family:'Inter','Inter var',-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+  font-feature-settings:"ss01","cv11","cv02","cv03";letter-spacing:-.012em;
+  -webkit-font-smoothing:antialiased;font-size:15px;line-height:1.5}
+@supports (font-variation-settings:normal){html,body{font-family:'Inter var',-apple-system,system-ui,sans-serif}}
+a{color:var(--accent);text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:1280px;margin:0 auto;padding:0 20px}
+.card{background:var(--surface);border:1px solid var(--ring);border-radius:20px;padding:18px 20px;box-shadow:0 20px 50px rgba(10,13,18,.05)}
+h1{font-size:23px;margin:0;font-weight:550;letter-spacing:-.03em;color:var(--ink)}
+h2{font-size:15px;margin:0 0 12px;font-weight:550;letter-spacing:-.02em}
+.sub{color:var(--ink2);font-size:13.5px;margin:4px 0 0}
+.pill{display:inline-block;font-size:11.5px;border:1px solid var(--ring);border-radius:999px;
+  padding:2px 10px;color:var(--ink2);background:var(--page);margin-left:6px;vertical-align:2px}
+.mono{font-family:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,monospace;font-variant-numeric:tabular-nums;font-size:.92em}
+header{padding:26px 0 16px}
+header .top{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(215px,1fr));gap:12px;margin:8px 0 16px}
+.kpi{background:var(--surface);border:1px solid var(--ring);border-radius:20px;padding:16px 18px;
+  box-shadow:0 20px 50px rgba(10,13,18,.05)}
+.kpi.pending{opacity:.62;border-style:dashed}
+.kpi .k{display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.14em;font-weight:600}
+.kpi .kdot{width:6px;height:6px;border-radius:50%;background:var(--signal);box-shadow:0 0 8px var(--signal);flex:none}
+.kpi .v{font-size:30px;font-weight:300;margin-top:6px;letter-spacing:-.045em;color:var(--ink);font-variant-numeric:tabular-nums}
+.kpi .d{font-size:12.5px;color:var(--ink2);margin-top:4px}
+.controls{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end;margin-bottom:12px}
+.ctrl label{display:block;font-size:12px;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.04em;margin-bottom:5px}
+.seg{display:inline-flex;border:1px solid var(--ring);border-radius:9px;overflow:hidden;background:var(--page)}
+.seg button{border:0;background:transparent;color:var(--ink2);padding:7px 13px;font-size:13.5px;cursor:pointer}
+.seg button.on{background:var(--ink);color:var(--page);font-weight:600}
+select,input[type=range]{font:inherit}
+select{background:var(--page);color:var(--ink);border:1px solid var(--ring);border-radius:9px;padding:7px 10px}
+.wkrow{display:flex;align-items:center;gap:8px}
+.wkrow button{border:1px solid var(--ring);background:var(--page);color:var(--ink);
+  border-radius:8px;width:32px;height:32px;cursor:pointer;font-size:14px}
+.wkval{font-size:13px;color:var(--ink2)}
+#mapbox{position:relative}
+#map{height:min(70vh,620px);border-radius:12px;overflow:hidden;border:1px solid var(--ring)}
+#basemapctl{position:absolute;top:10px;right:10px;z-index:2;box-shadow:0 1px 4px rgba(0,0,0,.18)}
+#maplegend{position:absolute;left:10px;bottom:10px;z-index:2;background:var(--surface);
+  border:1px solid var(--ring);border-radius:10px;padding:9px 11px;font-size:12px;max-width:260px}
+#maplegend .bar{height:9px;border-radius:5px;margin:5px 0 3px}
+#zoomhint{position:absolute;left:50%;top:12px;transform:translateX(-50%);z-index:3;
+  background:var(--surface);border:1px solid var(--ring);border-radius:999px;
+  padding:6px 13px;font-size:12.5px;color:var(--ink2);display:none;
+  box-shadow:0 1px 4px rgba(0,0,0,.10)}
+#maplegend .ends{display:flex;justify-content:space-between;color:var(--ink2);font-size:11.5px}
+.swatch{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.status{margin-top:10px;font-size:13px;color:var(--ink2)}
+.charts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+@media (max-width:900px){.charts{grid-template-columns:1fr}}
+@media (max-width:720px){
+  .kpis{grid-template-columns:1fr 1fr;gap:10px}
+  .kpi{padding:12px 13px}
+  .kpi .k{font-size:10.5px;letter-spacing:.03em}
+  .kpi .v{font-size:21px}
+  .kpi .d{font-size:11.5px}
+  .controls{gap:12px}
+  #maplegend{max-width:190px;font-size:11px;padding:7px 9px}
+}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{text-align:right;padding:7px 10px;border-bottom:1px solid var(--ring);white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{color:var(--muted);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
+.up{color:var(--up)} .down{color:var(--down)}
+.method{margin:18px 0;color:var(--ink2);font-size:13.5px}
+.method h2{color:var(--ink)}
+.yleg{margin:10px 0 2px}
+.yleg>div{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.lg{display:inline-flex;align-items:center;gap:5px;font-size:12px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.lg i{width:14px;height:10px;border-radius:2px;display:inline-block;border:1px solid rgba(0,0,0,.12)}
+.pendingbox{display:flex;align-items:center;justify-content:center;height:220px;border:1px dashed var(--ring);
+  border-radius:12px;color:var(--muted);font-size:13.5px;text-align:center;padding:0 24px}
+footer{padding:22px 0 40px;color:var(--muted);font-size:12.5px}
+.maplibregl-popup-content{background:var(--surface);color:var(--ink);border-radius:10px;
+  border:1px solid var(--ring);font-size:13px;padding:10px 12px}
+.maplibregl-popup-tip{border-top-color:var(--surface)!important;border-bottom-color:var(--surface)!important}
+</style>
+</head>
+<body>
+<header class="wrap">
+  <div class="top">
+    <div>
+      <h1>US Maize — In-Season Yield &amp; Area Forecast</h1>
+      <p class="sub">Weekly satellite forecast of corn yield, crop area and production
+        for the core Corn Belt.</p>
+      <p class="sub" id="scopeline"></p>
+    </div>
+    <div id="headpills"></div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="card" id="boot" style="margin-bottom:12px">
+    <b>Loading…</b> <span class="mono" id="bootstep">starting</span>
+  </div>
+  <section class="kpis" id="kpis"></section>
+
+  <section class="card">
+    <h2>Map <span class="pill" id="scopepill">core states</span></h2>
+    <div class="controls">
+      <div class="ctrl">
+        <label>Forecast week</label>
+        <div class="wkrow">
+          <button id="prev" title="previous week">‹</button>
+          <input type="range" id="slider" min="0" max="0" value="0" step="1">
+          <button id="next" title="next week">›</button>
+          <button id="play">▶</button>
+        </div>
+        <div class="wkval mono" id="wklabel" style="margin-top:4px">—</div>
+      </div>
+      <div class="ctrl">
+        <label>Show</label>
+        <div class="seg" id="whatseg">
+          <button data-what="yield" class="on">Corn yield</button>
+          <button data-what="corn">Corn area</button>
+          <button data-what="soybean">Soy area</button>
+        </div>
+      </div>
+      <div class="ctrl">
+        <label>Detail</label>
+        <select id="detail">
+          <option value="state">State statistics (whole states only)</option>
+          <option value="county" selected>County statistics</option>
+          <!-- ONE option, two products: it resolves to the 10 m yield forecast when the
+               quantity is yield and to the 5 m classification when it is crop area, so
+               the two thematic surfaces can never be asked for at the same time. -->
+          <option value="fields">Field detail</option>
+        </select>
+      </div>
+      <div class="ctrl" id="comparectrl">
+        <label>Changes</label>
+        <select id="compare">
+          <option value="">Latest estimate</option>
+          <option value="chg">Change vs previous week</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <label>Boundaries</label>
+        <label style="display:flex;align-items:center;gap:6px;font-weight:400">
+          <input type="checkbox" id="boundson" checked> county &amp; state lines
+        </label>
+      </div>
+      <div class="ctrl">
+        <label>Opacity</label>
+        <input type="range" id="opacity" min="0" max="1" step="0.05" value="0.8" style="width:110px">
+      </div>
+    </div>
+    <div id="mapbox">
+      <div id="map"></div>
+      <div id="basemapctl" class="seg" title="Basemap">
+        <button data-bm="map" class="on">Map</button>
+        <button data-bm="sat">Satellite</button>
+      </div>
+      <div id="zoomhint"></div>
+      <div id="maplegend"></div>
+    </div>
+    <div class="status" id="status"></div>
+  </section>
+
+  <section class="charts">
+    <div class="card">
+      <h2>Yield forecast</h2>
+      <div id="yieldbox"></div>
+    </div>
+    <div class="card">
+      <h2>Production</h2>
+      <div id="prodbox"></div>
+    </div>
+  </section>
+
+  <section class="charts">
+    <div class="card">
+      <h2><span id="tstitle">Area through the season</span> <span class="pill">95% band</span></h2>
+      <svg id="tschart" width="100%" viewBox="0 0 620 280" role="img"
+           aria-label="Corn and soybean classified area in acres by forecast week, inside their 95 percent intervals"></svg>
+    </div>
+    <div class="card">
+      <h2>Model vs USDA June Acreage <span class="pill" id="usdapill">by state</span></h2>
+      <svg id="usdachart" width="100%" viewBox="0 0 620 280" role="img"
+           aria-label="Model classified area against USDA June Acreage planted acres for the largest states"></svg>
+    </div>
+  </section>
+
+  <section class="card" id="adminsec" style="margin:16px 0">
+    <h2>Summary — <span id="adminweek" class="mono"></span> ·
+        <span id="adminlvlname"></span></h2>
+    <div style="overflow-x:auto"><table id="admintable"></table></div>
+    <p class="sub" id="adminnote" style="margin-top:10px"></p>
+  </section>
+
+  <footer class="wrap" id="foot"></footer>
+</div>
+
+<script src="lib/maplibre-gl.js"></script>
+<script src="lib/pmtiles.js"></script>
+<script>
+"use strict";
+/* ---------------------------------------------------------------------------
+   US twin of the UK portal viewer. Same shell (MapLibre GL + PMTiles on GitHub
+   Pages, no server), different data model: the product is a 30 m corn/soy/other
+   classification with calibrated, error-adjusted acreage by state and county.
+   The class map is VECTOR: the published 5 m map of classified fields,
+   polygonised per week into PMTiles, so it stays crisp at any zoom instead of
+   dissolving into the 120 m raster the portal first shipped. Polygons carry a
+   cls property (0 corn, 1 soybean) and nothing else -- the geometry IS the
+   classification, which is why it is rebuilt per week rather than shared with a
+   value side-car the way the UK field layer is. Below the archive's minzoom the
+   county choropleth is the right national view, so the fields simply start
+   there. The yield panel is still a placeholder.
+   Units follow USDA: acres (M ac, k ac); percentages ONS-style ("24%").
+--------------------------------------------------------------------------- */
+const CORN = "#c1860a", SOY = "#3c7a39";
+const CROP_COLOR = { corn: CORN, soybean: SOY, yield: "#8c2d04" };
+const CROP_LABEL = { corn: "Corn", soybean: "Soybean", yield: "Corn yield" };
+const IS_YIELD = () => WHAT === "yield";
+// yield is an INTENSITY (bu/ac), not a total: it must not use the area colour scale, which
+// saturates at a percentile of a long-tailed distribution. It gets the published bin edges.
+const YIELD_KEY = "yield_bu_ac";
+/* Opens over central Iowa / Illinois: the densest corn-soy country in the belt. */
+const HOME = { center: [-92.4, 41.6], zoom: 5.6 };
+let MF = null, WEEKS = [], cur = 0, WHAT = "yield", DETAIL = "county",
+    CHANGE = false, BASEMAP = "map", playing = null, map = null;
+
+const $ = s => document.querySelector(s);
+const clamp01 = v => Math.max(0, Math.min(1, v));
+const fmt = (v, d = 2) => v == null || !isFinite(v) ? "—" : Number(v).toFixed(d);
+const sgn = (v, d = 2) => (v > 0 ? "+" : "") + fmt(v, d);
+const uAc = a => a == null ? "—" : Math.abs(a) >= 1e6 ? fmt(a / 1e6, 2) + " M ac" : fmt(a / 1e3, 0) + " k ac";
+const pct = (v, d = 1) => v == null || !isFinite(v) ? "—" : sgn(v, d) + "%";
+const week_short = s => new Date(s + "T00:00:00Z").toLocaleDateString("en-US",
+  { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+
+/* ---------------- map ---------------- */
+const BASEMAPS = {
+  // CARTO Positron, not standard OSM: it is built as a neutral backdrop for data overlays,
+  // so roads and labels recede and the crop colours carry the map. Standard OSM competes
+  // with the layer even desaturated. @2x on retina.
+  map: { tiles: [`https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}${
+           (window.devicePixelRatio || 1) > 1 ? "@2x" : ""}.png`],
+         attribution: '&copy; OpenStreetMap contributors &copy; CARTO', saturation: 0 },
+  sat: { tiles: ["https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"],
+         attribution: "Imagery &copy; Esri", saturation: 0 }
+};
+const CREDIT = "UCL &middot; NCEO";
+const BASE_STYLE = {
+  version: 8,
+  sources: { base: { type: "raster", tileSize: 256,
+                     tiles: BASEMAPS.map.tiles, attribution: BASEMAPS.map.attribution } },
+  layers: [
+    { id: "bg", type: "background", paint: { "background-color": "#eceae2" } },
+    { id: "base", type: "raster", source: "base",
+      paint: { "raster-saturation": BASEMAPS.map.saturation } }
+  ]
+};
+
+async function initMap(){
+  if (typeof maplibregl === "undefined") throw new Error("maplibre-gl failed to load");
+  if (typeof pmtiles === "undefined") throw new Error("pmtiles.js failed to load");
+  const proto = new pmtiles.Protocol();
+  maplibregl.addProtocol("pmtiles", proto.tile);
+
+  boot("creating map");
+  map = new maplibregl.Map({
+    container: "map", style: BASE_STYLE, center: HOME.center, zoom: HOME.zoom,
+    maxZoom: 14,
+    attributionControl: { compact: true, customAttribution: CREDIT }
+  });
+  map.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-left");
+
+  const errs = [];
+  map.on("error", e => {
+    const m = (e && e.error && e.error.message) || String(e && e.type);
+    errs.push(m); console.error("[map]", m);
+  });
+  boot("waiting for map style");
+  await new Promise((res, rej) => {
+    const t = setTimeout(() => rej(new Error(
+      "map style did not finish loading in 20 s" +
+      (errs.length ? " — first error: " + errs[0] : " (no error reported)"))), 20000);
+    map.on("load", () => { clearTimeout(t); res(); });
+  });
+  map.on("zoomend", () => updateZoomHint(activeTheme(WHAT, DETAIL)));
+
+  // boundaries start empty and are fetched the first time a level is shown
+  const EMPTY = { type: "FeatureCollection", features: [] };
+  for (const lvl of Object.keys(MF.admin_levels)){
+    map.addSource(`adm-${lvl}`, { type: "geojson", data: EMPTY, promoteId: "code" });
+    map.addLayer({ id: `adm-${lvl}-fill`, type: "fill", source: `adm-${lvl}`,
+      layout: { visibility: "none" },
+      paint: { "fill-color": "#cccccc", "fill-opacity": 0.8 } });
+    map.addLayer({ id: `adm-${lvl}-line`, type: "line", source: `adm-${lvl}`,
+      layout: { visibility: "none" },
+      paint: { "line-color": "rgba(0,0,0,.35)", "line-width": lvl === "state" ? 1.1 : 0.6 } });
+    map.on("click", `adm-${lvl}-fill`, e => {
+      const f = e.features[0];
+      const rows = adminStats(WEEKS[cur].monday, lvl);
+      const r = rows.find(x => x.code === f.id) ||
+                rows.find(x => x.name === (f.properties || {}).name);
+      if (!r) return;
+      const line = c => `<br>${CROP_LABEL[c]} ${uAc(r[c])}`
+        + (r[c + "_ci95"] != null ? ` <span style="color:var(--muted)">±${uAc(r[c + "_ci95"])}</span>` : "")
+        + (r[c + "_usda"] != null ? `<br><span style="color:var(--muted)">USDA June: ${uAc(r[c + "_usda"])}</span>` : "");
+      new maplibregl.Popup({ closeButton: false })
+        .setLngLat(e.lngLat)
+        .setHTML(`<b>${r.name}${r.state ? ", " + r.state : ""}</b>` + line("corn") + line("soybean")
+          + (r.total_acres ? `<br><span style="color:var(--muted)">corn+soy ${fmt(100 * (r.corn + r.soybean) / r.total_acres, 0)}% of land</span>` : ""))
+        .addTo(map);
+    });
+    map.on("mouseenter", `adm-${lvl}-fill`, () => map.getCanvas().style.cursor = "pointer");
+    map.on("mouseleave", `adm-${lvl}-fill`, () => map.getCanvas().style.cursor = "");
+  }
+}
+
+function setBasemap(){
+  const bm = BASEMAPS[BASEMAP];
+  const s = map && map.getSource("base");
+  if (s && s.setTiles) s.setTiles(bm.tiles);
+  if (map && map.getLayer("base")) map.setPaintProperty("base", "raster-saturation", bm.saturation);
+}
+
+/* ---------------- layer model ----------------
+   ONE quantity colours the map, in ONE representation, under ONE legend.
+
+   The first build drew three thematic layers at once. The county choropleth painted its
+   fill; the 10 m yield raster was inserted ABOVE that fill by an independent checkbox;
+   the 5 m classification was appended on top of everything -- and a single opacity
+   slider drove all three. So yield orange blended into crop green, and the choropleth
+   showed through its own raster wherever the raster had no data. No reading of that
+   picture is correct.
+
+   The axes are therefore collapsed. `Detail` chooses the representation OF THE SELECTED
+   QUANTITY: state statistics, county statistics, or field detail -- where "field detail"
+   IS the 10 m yield forecast when the quantity is yield and the 5 m classification when
+   it is crop area. Two thematic surfaces can no longer coexist because they are now the
+   same control. Admin boundaries survive as reference LINES, independently toggleable;
+   their FILL is drawn only when the choropleth is itself the active representation. */
+
+// Pure, and deliberately free of `map`: the exclusivity invariant is what broke, so it
+// must be assertable without a browser. Tested in scripts/us_portal_layers_test.mjs.
+function activeTheme(what, detail){
+  if (detail === "state" || detail === "county") return { kind: "admin", level: detail };
+  return { kind: what === "yield" ? "yield" : "class" };
+}
+// Every thematic layer is inserted beneath this, so boundary lines always read on top of
+// the data rather than being buried by whichever layer was added last.
+const THEME_ANCHOR = "adm-state-line";
+
+/* ---------------- 5 m classified fields (vector PMTiles, one archive per week) ----
+   Added on demand: registering every week upfront would fetch every archive header on
+   load. Zoom range comes from the manifest so the layer never overzooms a coarse level
+   over a finer one. */
+const classAdded = {};        // week -> [layer id]
+function classLayers(week){ return classAdded[week] || []; }
+function ensureClass(week){
+  const t = MF.tiles && MF.tiles.class && MF.tiles.class[week];
+  if (!t) return null;
+  if (classAdded[week]) return week;
+  // a belt-wide week can exceed GitHub's 100 MB per-file limit, so it ships as
+  // longitude bands; each archive declares its own bounds and MapLibre only
+  // requests from the one covering the view
+  const parts = (t.parts && t.parts.length) ? t.parts : [{ url: t.url }];
+  const ids = [];
+  parts.forEach((part, i) => {
+    const sid = `cls-${week}-s${i}`;
+    map.addSource(sid, { type: "vector",
+                         url: `pmtiles://${new URL(part.url, location.href).href}` });
+    const lid = `cls-${week}-f${i}`;
+    map.addLayer({
+      id: lid, type: "fill", source: sid, "source-layer": t.layer || "crop",
+      layout: { visibility: "none" },
+      // NO minzoom: MapLibre overzooms the deepest level, so zooming past the
+      // archive's maxzoom keeps drawing instead of blanking the map
+      paint: { "fill-color": ["match", ["get", "cls"], 0, CORN, 1, SOY, "#9a9a9a"],
+               "fill-opacity": 0.85,
+               // A constant outline is wrong at both ends: at low zoom a field is barely a
+               // pixel and the edge BECOMES the feature, muddying whole regions; at high
+               // zoom an edgeless block of one crop reads as a single mass. So fade the
+               // outline in only once parcels are big enough to have a readable edge --
+               // the same treatment the UK viewer uses.
+               "fill-outline-color": ["interpolate", ["linear"], ["zoom"],
+                                      10, "rgba(0,0,0,0)", 13, "rgba(0,0,0,0.20)"],
+               "fill-antialias": ["step", ["zoom"], false, 12, true] } }, THEME_ANCHOR);
+    ids.push(lid);
+  });
+  classAdded[week] = ids;
+  return week;
+}
+const hasClass = week => !!(MF.tiles && MF.tiles.class && MF.tiles.class[week]);
+
+/* ---------------- 10 m yield forecast (8-bin PNG PMTiles, one archive per week) ----
+   Rendered, not data: 8 bins ~1 sigma wide (the model's per-pixel sigma is ~18 bu/ac), so
+   inverting the palette recovers no more than the published uncertainty already concedes.
+   Exact values come from the county/state statistics, never from the pixels. Field detail
+   ships for the latest weeks only; older weeks keep their choropleths (as the class map does).
+
+   Added ONCE per week and then shown/hidden, exactly like the class layer. The first
+   version removed and re-added the sources on every render, so every slider step refetched
+   the archive headers and flashed the map. */
+const yieldAdded = {};        // week -> [layer id]
+function yieldLayers(week){ return yieldAdded[week] || []; }
+function ensureYield(week){
+  const t = MF.tiles && MF.tiles.yield && MF.tiles.yield[week];
+  if (!t) return null;
+  if (yieldAdded[week]) return week;
+  const ids = [];
+  (t.parts || []).forEach((part, i) => {
+    const sid = `yld-${week}-s${i}`;
+    map.addSource(sid, { type: "raster", tileSize: t.tilesize || 256,
+                         minzoom: t.minzoom ?? 5, maxzoom: t.maxzoom ?? 14,
+                         attribution: t.attribution || (MF.license && MF.license.attribution) || "",
+                         url: `pmtiles://${new URL(part.url, location.href).href}` });
+    const lid = `yld-${week}-r${i}`;
+    map.addLayer({ id: lid, type: "raster", source: sid,
+                   layout: { visibility: "none" },
+                   paint: { "raster-opacity": 0.85, "raster-resampling": "nearest" } },
+                 THEME_ANCHOR);
+    ids.push(lid);
+  });
+  yieldAdded[week] = ids;
+  return week;
+}
+const hasYieldTiles = week => !!(MF.tiles && MF.tiles.yield && MF.tiles.yield[week]);
+
+function yieldLegendHtml(){
+  const t = MF.tiles && MF.tiles.yield_legend;
+  if (!t) return "";
+  const e = t.bin_edges_bu_ac, p = t.palette_rgb;
+  const cells = p.map((c, i) => {
+    const lo = i === 0 ? "<" + e[0] : e[i-1], hi = i === p.length-1 ? "+" : e[i];
+    const lbl = i === 0 ? `<${e[0]}` : (i === p.length-1 ? `${e[e.length-1]}+` : `${e[i-1]}–${e[i]}`);
+    return `<span class="lg"><i style="background:rgb(${c[0]},${c[1]},${c[2]})"></i>${lbl}</span>`;
+  }).join("");
+  return `<div class="yleg"><b>Forecast yield, bu/ac</b><div>${cells}</div></div>`;
+}
+
+function drawYieldPanels(){
+  const w = WEEKS[cur], y = w && w.yield, box = $("#yieldbox"), pb = $("#prodbox");
+  if (!box) return;
+  if (!(y && y.available)){
+    box.className = "pendingbox";
+    box.textContent = (y && y.note) || "No yield forecast for this week.";
+    if (pb){ pb.className = "pendingbox"; pb.textContent = "Production follows the yield forecast."; }
+    return;
+  }
+  box.className = "";
+  box.innerHTML = `<div class="v">${fmt(y.core.yield_bu_ac, 1)} <span class="sub">bu/ac</span></div>
+    <div class="d">${fmt(y.core.yield_t_ha, 2)} t/ha · ±${fmt(y.core.yield_sigma_t_ha, 2)} t/ha</div>
+    ${yieldLegendHtml()}`;
+  if (pb){
+    pb.className = "";
+    pb.innerHTML = y.production_t != null
+      ? `<div class="v">${fmt(y.production_t / 1e6, 1)} <span class="sub">Mt</span></div>
+         <div class="d">corn area × forecast yield</div>`
+      : `<div class="d">Not available for this week.</div>`;
+  }
+}
+
+/* ---------------- admin choropleth ---------------- */
+const admLoaded = {};
+async function ensureAdmin(lvl){
+  if (admLoaded[lvl]) return;
+  admLoaded[lvl] = true;
+  const r = await fetch(MF.admin_levels[lvl]);
+  if (!r.ok){ admLoaded[lvl] = false; throw new Error(`${lvl} boundaries: HTTP ${r.status}`); }
+  map.getSource(`adm-${lvl}`).setData(await r.json());
+}
+function adminStats(week, lvl){
+  const w = WEEKS.find(x => x.monday === week);
+  return (w && w.admin_stats && w.admin_stats[lvl]) || [];
+}
+const adminValue = r => IS_YIELD() ? r[YIELD_KEY] : r[WHAT];
+
+function hexToRgb(h){ return [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)]; }
+function paintAdmin(lvl){
+  const rows = adminStats(WEEKS[cur].monday, lvl);
+  const prev = CHANGE && cur > 0 ? adminStats(WEEKS[cur-1].monday, lvl) : null;
+  const pmap = {}; (prev || []).forEach(r => pmap[r.code] = r);
+  const vals = rows.map(r => CHANGE ? (adminValue(r) - (pmap[r.code] ? adminValue(pmap[r.code]) : adminValue(r)))
+                                    : adminValue(r)).filter(v => v != null && isFinite(v));
+  if (!vals.length) return;
+  const expr = ["match", ["get", "code"]];
+  let hi;
+  if (CHANGE){ hi = Math.max(...vals.map(Math.abs)) || 1; }
+  else {
+    // scale on the 98th percentile so a handful of giant counties do not wash
+    // out the belt; everything above saturates
+    const s = vals.slice().sort((a, b) => a - b);
+    hi = s[Math.min(s.length - 1, Math.floor(s.length * 0.98))] || 1;
+  }
+  const [cr, cg, cb] = hexToRgb(CROP_COLOR[WHAT]);
+  const leg = MF.tiles && MF.tiles.yield_legend;
+  if (IS_YIELD() && !CHANGE && leg){
+    // same 8 bins and palette as the raster, so map and choropleth cannot disagree
+    rows.forEach(r => {
+      const v = r[YIELD_KEY];
+      if (v == null || !isFinite(v)){
+        // a county the yield model does not cover is NOT zero yield -- it is unknown
+        expr.push(r.code, "rgba(120,120,120,0.18)");
+      } else {
+        let i = 0; while (i < leg.bin_edges_bu_ac.length && v >= leg.bin_edges_bu_ac[i]) i++;
+        const c = leg.palette_rgb[Math.min(i, leg.palette_rgb.length - 1)];
+        expr.push(r.code, `rgba(${c[0]},${c[1]},${c[2]},0.88)`);
+      }
+    });
+    expr.push("rgba(0,0,0,0)");
+    map.setPaintProperty(`adm-${lvl}-fill`, "fill-color", expr);
+    return;
+  }
+  rows.forEach(r => {
+    let v = adminValue(r);
+    if (CHANGE) v = v - (pmap[r.code] ? adminValue(pmap[r.code]) : v);
+    let col;
+    if (v == null || !isFinite(v)) col = "rgba(0,0,0,0)";
+    else if (CHANGE){
+      const t = clamp01(Math.abs(v) / (hi || 1));
+      col = v >= 0 ? `rgba(0,99,0,${0.15 + 0.7 * t})` : `rgba(208,59,59,${0.15 + 0.7 * t})`;
+    } else {
+      const t = clamp01(v / (hi || 1));
+      col = `rgba(${cr},${cg},${cb},${0.06 + 0.86 * t})`;
+    }
+    expr.push(r.code, col);
+  });
+  expr.push("rgba(0,0,0,0)");
+  map.setPaintProperty(`adm-${lvl}-fill`, "fill-color", expr);
+}
+
+/* Field detail exists only where an archive does, and only above its minzoom -- below it
+   the belt is millions of polygons and the statistics are the honest national view. Say
+   which of those you are looking at rather than leaving an apparently empty map. */
+function updateZoomHint(theme){
+  const el = $("#zoomhint"); if (!el) return;
+  el.style.display = "none";
+  if (!map || !theme || theme.kind === "admin") return;
+  const wk = WEEKS[cur] && WEEKS[cur].monday;
+  const t = wk && MF.tiles && ((theme.kind === "class" ? MF.tiles.class : MF.tiles.yield) || {})[wk];
+  if (!t) return;
+  const z = map.getZoom(), say = m => { el.style.display = "block"; el.textContent = m; };
+  if (t.minzoom != null && z < t.minzoom)
+    return say(theme.kind === "class" ? "Zoom in to see the classified fields"
+                                      : "Zoom in to see the field-level forecast");
+  // below coarse_below the class layer is drawn from the 120 m planes, so it is the same
+  // crop mass at a coarser outline rather than a different or thinned set of fields
+  if (theme.kind === "class" && t.coarse_below != null && z < t.coarse_below)
+    return say("Generalised view — zoom in for individual fields");
+  // the yield archive stops at its maxzoom and MapLibre overzooms past it: the blocks the
+  // user then sees are enlarged tiles, not field boundaries, so label them as such
+  if (theme.kind === "yield" && t.maxzoom != null && z > t.maxzoom + 0.5)
+    return say("Enlarged past the published tile resolution — blocks are pixels, not fields");
+}
+
+/* ---------------- render ---------------- */
+/* The SINGLE authority over what is drawn. Every registered thematic layer is set from
+   one `activeTheme` answer, so no layer can be left visible by a code path that forgot to
+   hide it -- which is exactly how the three-layer stack arose. */
+function setVisible(theme, week, boundsOn){
+  for (const lvl of Object.keys(MF.admin_levels)){
+    const isChoro = theme.kind === "admin" && theme.level === lvl;
+    // lines delineate their own choropleth; over a field layer they are optional reference
+    const line = theme.kind === "admin" ? isChoro : !!boundsOn;
+    map.setLayoutProperty(`adm-${lvl}-fill`, "visibility", isChoro ? "visible" : "none");
+    map.setLayoutProperty(`adm-${lvl}-line`, "visibility", line ? "visible" : "none");
+  }
+  for (const [reg, kind] of [[classAdded, "class"], [yieldAdded, "yield"]])
+    for (const wk of Object.keys(reg))
+      for (const id of reg[wk])
+        if (map.getLayer(id))
+          map.setLayoutProperty(id, "visibility",
+            (theme.kind === kind && wk === week) ? "visible" : "none");
+}
+
+/* The classification carries BOTH crops, so "Show: Soy area" must look different from
+   "Show: Corn area" at field detail. Draw the selected crop in its own colour and mute the
+   other rather than filtering it away: the neighbouring crop is the context that makes a
+   rotation legible, but it must not compete with the quantity the user asked for. */
+const CLASS_MUTED = "rgba(150,150,150,0.40)";
+function paintClass(week){
+  const sel = WHAT === "soybean" ? 1 : 0;          // cls: 0 = corn, 1 = soybean
+  const expr = ["match", ["get", "cls"], sel, (sel === 0 ? CORN : SOY), CLASS_MUTED];
+  for (const l of classLayers(week))
+    if (map.getLayer(l)) map.setPaintProperty(l, "fill-color", expr);
+}
+
+/* One slider, applied to the ONE layer that is actually drawn. */
+function applyOpacity(theme, week){
+  const o = +$("#opacity").value;
+  if (theme.kind === "admin"){
+    map.setPaintProperty(`adm-${theme.level}-fill`, "fill-opacity", o);
+  } else if (theme.kind === "class"){
+    for (const l of classLayers(week))
+      if (map.getLayer(l)) map.setPaintProperty(l, "fill-opacity", o);
+  } else {
+    for (const l of yieldLayers(week))
+      if (map.getLayer(l)) map.setPaintProperty(l, "raster-opacity", o);
+  }
+}
+
+async function render(){
+  const wk = WEEKS[cur], week = wk.monday;
+  $("#wklabel").textContent = `week of ${week} · DOY ${wk.doy ?? "—"}`;
+  $("#slider").value = cur;
+
+  // "Field detail" is a different product per quantity, and each has its own weeks
+  const fieldOK = IS_YIELD() ? hasYieldTiles(week) : hasClass(week);
+  const fOpt = $("#detail").querySelector('option[value="fields"]');
+  fOpt.textContent = (IS_YIELD() ? "Field forecast (10 m)" : "Classified fields (5 m)")
+                   + (fieldOK ? "" : " — not for this week");
+  fOpt.disabled = !fieldOK;
+  if (DETAIL === "fields" && !fieldOK){ DETAIL = "county"; $("#detail").value = "county"; }
+
+  const theme = activeTheme(WHAT, DETAIL);
+  // a field layer is one week's picture; there is no pixel-wise change mode
+  $("#compare").disabled = theme.kind !== "admin";
+  if (theme.kind !== "admin" && CHANGE){ CHANGE = false; $("#compare").value = ""; }
+
+  if (theme.kind === "admin"){
+    await ensureAdmin(theme.level);
+    paintAdmin(theme.level);
+  } else if (theme.kind === "class"){
+    ensureClass(week);
+    paintClass(week);
+  } else {
+    ensureYield(week);
+  }
+  setVisible(theme, week, $("#boundson").checked);
+  applyOpacity(theme, week);
+  updateZoomHint(theme);
+  drawKpis(); drawLegend(theme); drawStatus(); drawAdminTable(); drawCharts();
+}
+
+/* ---------------- KPI / legend / tables / charts ---------------- */
+function kpiCell(k, v, d, cls){
+  return `<div class="kpi ${cls || ""}"><div class="k"><span>${k}</span><span class="kdot"></span></div>
+    <div class="v">${v}</div><div class="d">${d}</div></div>`;
+}
+/* ---------------- acreage contract ----------------
+   The pack normalises every acreage family onto ONE contract -- `acres` / `ci95_acres` --
+   and records what that number IS in the week's `area_basis`. `planted_equiv_acres` is kept
+   only for provenance and is absent from every week built after 2026-09-06. The viewer was
+   still reading it, so the acreage KPIs and the entire season chart rendered em dashes and
+   an empty box for all nine weeks. Read the contract; take the label from the basis rather
+   than hardcoding one, because the same viewer serves both families. */
+const AREA_BASIS = {
+  pixel_count_5m: { kpi: "area · 5 m map", axis: "Classified area",
+                    note: "area of the published 5 m classification, counted inside US county geometry" },
+  _default:       { kpi: "planted-equiv.", axis: "Planted-equivalent area",
+                    note: "planted-equivalent acres" }
+};
+const areaBasis = w => AREA_BASIS[(w && w.area_basis) || ""] || AREA_BASIS._default;
+function beltArea(w, crop){
+  const b = (w && w.belt && w.belt[crop]) || null;
+  if (!b) return { acres: null, ci95: null };
+  return { acres: b.acres ?? b.planted_equiv_acres ?? null,
+           ci95: b.ci95_acres ?? b.planted_equiv_ci95_acres ?? null };
+}
+
+function drawKpis(){
+  const w = WEEKS[cur], p = cur > 0 ? WEEKS[cur-1] : null;
+  const cells = [];
+  const ab = areaBasis(w);
+  for (const c of ["corn", "soybean"]){
+    const b = beltArea(w, c), pb = p ? beltArea(p, c) : null;
+    const dv = (pb && b.acres != null && pb.acres != null) ? b.acres - pb.acres : null;
+    cells.push(kpiCell(`${CROP_LABEL[c]} ${ab.kpi}`, uAc(b.acres),
+      (b.ci95 != null ? `95% ±${uAc(b.ci95)}` : "no interval published") +
+      (dv != null ? ` · <span class="${dv >= 0 ? 'up' : 'down'}">${sgn(dv / 1e6, 2)} M ac</span> vs last week` : "")));
+  }
+  const u = (w.usda && w.usda.belt) || {};
+  const uc = u.corn, us = u.soybean;
+  cells.push(kpiCell("vs USDA June Acreage",
+    (uc || us) ? `<span style="color:${CORN}">${pct(uc && uc.diff_pct)}</span> <span class="sub">/</span> <span style="color:${SOY}">${pct(us && us.diff_pct)}</span>` : "—",
+    (uc ? `corn / soybean · ${uc.n_states} fully covered states (≥${Math.round(100 * (uc.coverage_threshold || 0.97))}% of land classified)` : "no comparable states this week") +
+    ((w.usda && w.usda.meta && w.usda.meta.release_date) ? ` · report ${w.usda.meta.release_date}` : "")));
+  cells.push(kpiCell("Forecast week", week_short(w.monday),
+    `${w.n_tiles ?? "—"} HLS tiles · model cutoff DOY ${w.model_cutoff ?? "—"}` +
+    (w.data_end_doy ? ` · imagery to DOY ${w.data_end_doy}` : "")));
+  const y = w.yield;
+  if (y && y.available && y.core && y.core.yield_bu_ac != null){
+    const cov = y.coverage || {};
+    cells.push(kpiCell("Average corn yield",
+      `${fmt(y.core.yield_bu_ac, 1)} <span class="sub">bu/ac</span>`,
+      `${fmt(y.core.yield_t_ha, 2)} t/ha · ±${fmt(y.core.yield_sigma_t_ha, 2)} t/ha per pixel · ` +
+      `${cov.n_counties_delivered ?? "—"} whole counties delivered` +
+      (cov.n_counties_considered ? ` of ${cov.n_counties_considered} classified` : "")));
+    if (y.production_t != null)
+      cells.push(kpiCell("Corn production", `${fmt(y.production_t / 1e6, 1)} <span class="sub">Mt</span>`,
+        "area × yield, over the counties with a forecast"));
+  } else {
+    cells.push(kpiCell("Average yield", "—", "no yield forecast for this week", "pending"));
+  }
+  $("#kpis").innerHTML = cells.join("");
+}
+
+function drawLegend(theme){
+  const el = $("#maplegend");
+  if (theme && theme.kind === "class"){
+    const soy = WHAT === "soybean";
+    el.innerHTML = `<b>Classified fields · 5 m</b>
+      <div class="sub" style="font-size:11.5px;margin:2px 0 4px">week of ${WEEKS[cur].monday}</div>
+      <div style="margin-top:6px"><span class="swatch" style="background:${soy ? SOY : CORN}"></span>${
+        soy ? "soybean" : "corn"} <span class="sub">(selected)</span></div>
+      <div><span class="swatch" style="background:${CLASS_MUTED}"></span>${
+        soy ? "corn" : "soybean"} <span class="sub">(context)</span></div>
+      `;
+    return;
+  }
+  if (CHANGE && cur > 0){
+    el.innerHTML = `<b>${CROP_LABEL[WHAT]}: change vs previous week</b>
+      <div class="bar" style="background:linear-gradient(90deg,#d03b3b,rgba(0,0,0,.06),#006300)"></div>
+      <div class="ends"><span>decrease</span><span>no change</span><span>increase</span></div>`;
+    return;
+  }
+  const leg2 = MF.tiles && MF.tiles.yield_legend;
+  if (IS_YIELD() && leg2){
+    const e = leg2.bin_edges_bu_ac, pal = leg2.palette_rgb;
+    const sw = pal.map((c, i) => {
+      const lbl = i === 0 ? `<${e[0]}` : (i === pal.length - 1 ? `${e[e.length-1]}+` : `${e[i-1]}–${e[i]}`);
+      return `<span class="lg"><i style="background:rgb(${c[0]},${c[1]},${c[2]})"></i>${lbl}</span>`;
+    }).join("");
+    const isChoro = !theme || theme.kind === "admin";
+    el.innerHTML = `<b>Forecast corn yield · bu/ac</b>
+      <div class="sub" style="font-size:11.5px;margin:2px 0 4px">${isChoro
+        ? (DETAIL === "state" ? "state means" : "county means") : "10 m field forecast"}</div>
+      <div class="yleg"><div>${sw}</div></div>` +
+      "";
+    return;
+  }
+  const [r, g, b] = hexToRgb(CROP_COLOR[WHAT]);
+  el.innerHTML = `<b>${CROP_LABEL[WHAT]} area · acres</b>
+
+    <div class="bar" style="background:linear-gradient(90deg,rgba(${r},${g},${b},.06),rgba(${r},${g},${b},.92))"></div>
+    <div class="ends"><span>less</span><span>more</span></div>
+    `;
+}
+
+function drawStatus(){
+  const w = WEEKS[cur];
+  const bits = [`${w.n_tiles ?? "—"} HLS tiles`,
+    w.n_tiles_ok != null ? `${w.n_tiles_ok} ok` : null,
+    w.n_tiles_degraded ? `<b>${w.n_tiles_degraded} degraded</b>` : null,
+    w.n_tiles_partial ? `<b>${w.n_tiles_partial} partial</b>` : null,
+    w.mean_valid_frac != null ? `mean classified fraction ${fmt(100 * w.mean_valid_frac, 0)}%` : null,
+    (w.ece && w.ece.corn != null) ? `calibration ECE corn ${fmt(w.ece.corn, 4)} · soy ${fmt(w.ece.soybean, 4)}` : null];
+  $("#status").innerHTML = bits.filter(Boolean).join(" · ");
+}
+
+function drawAdminTable(){
+  const lvl = DETAIL === "fields" ? "state" : DETAIL;
+  $("#adminweek").textContent = WEEKS[cur].monday;
+  $("#adminlvlname").textContent = lvl === "state" ? "States" : "Counties";
+  const rows = adminStats(WEEKS[cur].monday, lvl).slice();
+  const prev = cur > 0 ? adminStats(WEEKS[cur-1].monday, lvl) : [];
+  const pmap = {}; prev.forEach(r => pmap[r.code] = r);
+  rows.sort(IS_YIELD() ? (a, b) => (b[YIELD_KEY] ?? -1) - (a[YIELD_KEY] ?? -1)
+                       : (a, b) => (b[WHAT] || 0) - (a[WHAT] || 0));
+  const shown = lvl === "county" ? rows.slice(0, 60) : rows;
+  const isState = lvl === "state";
+  const head = `<tr><th>${isState ? "State" : "County"}</th>
+    <th>Yield (bu/ac)</th><th>± (t/ha)</th><th>Production (kt)</th>
+    <th>Corn (k ac)</th><th>Δ</th><th>Soy (k ac)</th><th>Δ</th>
+    ${isState ? "<th>USDA corn</th><th>USDA soy</th><th>Coverage</th>" : "<th>Corn+soy share</th>"}</tr>`;
+  $("#admintable").innerHTML = head + shown.map(r => {
+    const p = pmap[r.code];
+    const dc = p ? (r.corn - p.corn) / 1e3 : null, ds = p ? (r.soybean - p.soybean) / 1e3 : null;
+    const d = v => `<td class="mono ${v > 0 ? 'up' : v < 0 ? 'down' : ''}">${v == null ? "—" : sgn(v, 0)}</td>`;
+    const usdaCell = c => r[c + "_usda"] == null ? "—"
+      : fmt(r[c + "_usda"] / 1e3, 0) + (r.valid_comparison
+          ? ` <span class="sub">(${pct(100 * (r[c] / r[c + "_usda"] - 1), 1)})</span>`
+          : ` <span class="sub" title="state only partly covered by the tile set">(partial)</span>`);
+    const tail = isState
+      ? `<td class="mono">${usdaCell("corn")}</td><td class="mono">${usdaCell("soybean")}</td>
+         <td class="mono">${r.coverage_frac == null ? "—" : Math.round(100 * r.coverage_frac) + "%"}</td>`
+      : `<td class="mono">${r.total_acres ? fmt(100 * (r.corn + r.soybean) / r.total_acres, 0) + "%" : "—"}</td>`;
+    // every delivered unit is whole, so there is no coverage column: a dash here means the
+    // week has no yield forecast at all (only 2026-09-07 does), not partial ground
+    const ycell = r.yield_bu_ac == null
+      ? `<td class="mono sub" title="no yield forecast for this week">—</td><td class="mono sub">—</td>`
+      : `<td class="mono"><b>${fmt(r.yield_bu_ac, 1)}</b></td><td class="mono sub">±${fmt(r.yield_sigma_t_ha, 2)}</td>`;
+    const prod = (r.yield_t_ha != null && r.corn)
+      ? fmt(r.yield_t_ha * (r.corn / 2.471053931) / 1e3, 0) : "—";
+    return `<tr><td>${r.name}${r.state && !isState ? `, ${r.state}` : ""}</td>
+      ${ycell}
+      <td class="mono">${prod}</td>
+      <td class="mono">${fmt((r.corn || 0) / 1e3, 0)}</td>${d(dc)}
+      <td class="mono">${fmt((r.soybean || 0) / 1e3, 0)}</td>${d(ds)}${tail}</tr>`;
+  }).join("");
+  $("#adminnote").textContent = (lvl === "county" && rows.length > 60)
+    ? `Showing 60 of ${rows.length} counties, ranked by ${IS_YIELD() ? "forecast yield" : CROP_LABEL[WHAT].toLowerCase() + " area"}; click a county on the map for its numbers.` : "";
+}
+
+/* two series with bands on a shared axis */
+function svgSeries(el, keys, series, fmtY, unit){
+  const W = 620, H = 280, m = { l: 56, r: 14, t: 14, b: 34 };
+  const n = keys.length;
+  const xs = keys.map((_, i) => m.l + (W - m.l - m.r) * (n < 2 ? 0.5 : i / (n - 1)));
+  const all = [];
+  series.forEach(s => { s.v.forEach(v => all.push(v)); (s.band || []).forEach(b => { if (b) all.push(b[0], b[1]); }); });
+  const fin = all.filter(v => v != null && isFinite(v));
+  if (!fin.length){ el.innerHTML = ""; return; }
+  let lo = Math.min(...fin), hi = Math.max(...fin);
+  const pad = (hi - lo) * 0.18 || Math.abs(hi) * 0.05 || 1; lo -= pad; hi += pad;
+  const Y = v => m.t + (H - m.t - m.b) * (1 - (v - lo) / ((hi - lo) || 1));
+  let s = "";
+  for (let i = 0; i <= 4; i++){
+    const v = lo + (hi - lo) * i / 4, y = Y(v);
+    s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y}" y2="${y}" stroke="var(--grid)"/>`
+      + `<text x="${m.l - 8}" y="${y + 4}" text-anchor="end" font-size="11" fill="var(--muted)">${fmtY(v)}</text>`;
+  }
+  series.forEach(sr => {
+    if (sr.band && sr.band.every(b => b && b[0] != null)){
+      const up = sr.band.map((b, i) => `${xs[i]},${Y(b[1])}`).join(" ");
+      const dn = sr.band.map((b, i) => `${xs[i]},${Y(b[0])}`).reverse().join(" ");
+      s += `<polygon points="${up} ${dn}" fill="${sr.color}" opacity=".14"/>`;
+    }
+    // skip weeks with no value instead of emitting NaN coordinates, which silently void
+    // the whole polyline and take the rest of the season down with one missing week
+    const pts = sr.v.map((v, i) => (v != null && isFinite(v)) ? `${xs[i]},${Y(v)}` : null).filter(Boolean);
+    if (pts.length) s += `<polyline points="${pts.join(" ")}" fill="none" stroke="${sr.color}" stroke-width="2.4"/>`;
+    sr.v.forEach((v, i) => {
+      if (v == null || !isFinite(v)) return;
+      s += `<circle cx="${xs[i]}" cy="${Y(v)}" r="${i === cur ? 5 : 3.4}" fill="${i === cur ? "var(--ink)" : sr.color}"/>`;
+    });
+  });
+  keys.forEach((k, i) => {
+    s += `<text x="${xs[i]}" y="${H - 12}" text-anchor="middle" font-size="10.5" fill="var(--muted)">${k.slice(5)}</text>`;
+  });
+  s += `<text x="${m.l}" y="${m.t - 2}" font-size="11" fill="var(--muted)">${unit}</text>`;
+  series.forEach((sr, j) => {
+    s += `<rect x="${W - m.r - 150 + j * 78}" y="${m.t - 9}" width="10" height="10" rx="2" fill="${sr.color}"/>
+          <text x="${W - m.r - 136 + j * 78}" y="${m.t}" font-size="11" fill="var(--ink2)">${sr.name}</text>`;
+  });
+  el.innerHTML = s;
+}
+
+/* grouped bars: model vs USDA planted acres for the largest states */
+function svgUsdaBars(el, rows){
+  const W = 620, H = 280, m = { l: 56, r: 14, t: 16, b: 40 };
+  if (!rows.length){ el.innerHTML = `<text x="${W / 2}" y="${H / 2}" text-anchor="middle" font-size="12" fill="var(--muted)">no USDA rows for this week</text>`; return; }
+  const hi = Math.max(...rows.flatMap(r => [r.model, r.usda])) * 1.12 || 1;
+  const Y = v => m.t + (H - m.t - m.b) * (1 - v / hi);
+  const gw = (W - m.l - m.r) / rows.length, bw = Math.max(3, gw * 0.34);
+  let s = "";
+  for (let i = 0; i <= 4; i++){
+    const v = hi * i / 4, y = Y(v);
+    s += `<line x1="${m.l}" x2="${W - m.r}" y1="${y}" y2="${y}" stroke="var(--grid)"/>
+          <text x="${m.l - 8}" y="${y + 4}" text-anchor="end" font-size="11" fill="var(--muted)">${fmt(v / 1e6, 1)}</text>`;
+  }
+  const col = CROP_COLOR[WHAT];
+  rows.forEach((r, i) => {
+    const x = m.l + gw * i + gw / 2;
+    s += `<rect x="${x - bw - 1}" y="${Y(r.model)}" width="${bw}" height="${Y(0) - Y(r.model)}" fill="${col}" rx="2"/>`
+       + `<rect x="${x + 1}" y="${Y(r.usda)}" width="${bw}" height="${Y(0) - Y(r.usda)}" fill="var(--baseline)" rx="2"/>`
+       + `<text x="${x}" y="${H - 22}" text-anchor="middle" font-size="10.5" fill="var(--muted)">${r.code}</text>`
+       + `<text x="${x}" y="${H - 9}" text-anchor="middle" font-size="9.5" fill="${r.model >= r.usda ? 'var(--up)' : 'var(--down)'}">${pct(100 * (r.model / r.usda - 1), 0)}</text>`;
+  });
+  s += `<text x="${m.l}" y="${m.t - 4}" font-size="11" fill="var(--muted)">M ac · ${CROP_LABEL[WHAT]}</text>`
+     + `<rect x="${W - m.r - 150}" y="${m.t - 12}" width="10" height="10" rx="2" fill="${col}"/><text x="${W - m.r - 136}" y="${m.t - 3}" font-size="11" fill="var(--ink2)">model</text>`
+     + `<rect x="${W - m.r - 80}" y="${m.t - 12}" width="10" height="10" rx="2" fill="var(--baseline)"/><text x="${W - m.r - 66}" y="${m.t - 3}" font-size="11" fill="var(--ink2)">USDA</text>`;
+  el.innerHTML = s;
+}
+
+function drawCharts(){
+  const keys = WEEKS.map(w => w.monday);
+  const ser = ["corn", "soybean"].map(c => ({
+    name: CROP_LABEL[c], color: CROP_COLOR[c],
+    v: WEEKS.map(w => { const a = beltArea(w, c).acres; return a == null ? null : a / 1e6; }),
+    band: WEEKS.map(w => { const a = beltArea(w, c);
+      return (a.acres == null || a.ci95 == null) ? null
+           : [(a.acres - a.ci95) / 1e6, (a.acres + a.ci95) / 1e6]; })
+  }));
+  svgSeries($("#tschart"), keys, ser, v => fmt(v, 0), "M ac");
+  // the heading must name the quantity actually plotted, not a family this pack never used
+  const th = $("#tstitle"); if (th) th.textContent = `${areaBasis(WEEKS[cur]).axis} through the season`;
+  const st = adminStats(WEEKS[cur].monday, "state")
+    .filter(r => r.valid_comparison && r[WHAT + "_usda"] != null && r[WHAT + "_usda"] > 0)
+    .map(r => ({ code: r.code, model: r[WHAT], usda: r[WHAT + "_usda"] }))
+    .sort((a, b) => b.usda - a.usda).slice(0, 12);
+  svgUsdaBars($("#usdachart"), st);
+  $("#usdapill").textContent = `${CROP_LABEL[WHAT].toLowerCase()} · ${st.length} fully covered states`;
+  drawYieldPanels();
+}
+
+/* ---------------- wiring ---------------- */
+function bind(){
+  $("#slider").addEventListener("input", e => { cur = +e.target.value; render(); });
+  $("#prev").onclick = () => { cur = Math.max(0, cur - 1); render(); };
+  $("#next").onclick = () => { cur = Math.min(WEEKS.length - 1, cur + 1); render(); };
+  $("#play").onclick = e => {
+    if (playing){ clearInterval(playing); playing = null; e.target.textContent = "▶"; return; }
+    e.target.textContent = "❚❚";
+    playing = setInterval(() => { cur = (cur + 1) % WEEKS.length; render(); }, 1400);
+  };
+  $("#whatseg").addEventListener("click", e => {
+    const b = e.target.closest("button[data-what]"); if (!b) return;
+    [...$("#whatseg").children].forEach(x => x.classList.toggle("on", x === b));
+    WHAT = b.dataset.what; render();
+  });
+  $("#detail").addEventListener("change", e => { DETAIL = e.target.value; render(); });
+  $("#boundson").addEventListener("change", () => render());
+  $("#compare").addEventListener("change", e => { CHANGE = e.target.value === "chg"; render(); });
+  // the slider touches only the active layer -- applyOpacity owns that decision, so the
+  // handler cannot drift out of step with what is drawn
+  $("#opacity").addEventListener("input", () =>
+    applyOpacity(activeTheme(WHAT, DETAIL), WEEKS[cur].monday));
+  $("#basemapctl").addEventListener("click", e => {
+    const b = e.target.closest("button[data-bm]"); if (!b) return;
+    [...$("#basemapctl").children].forEach(x => x.classList.toggle("on", x === b));
+    BASEMAP = b.dataset.bm; setBasemap();
+  });
+}
+
+function drawStaticText(){
+  const sc = MF.scope, lic = MF.license;
+  if ($("#scopeline"))
+    $("#scopeline").innerHTML = (sc ? `<b>Scope:</b> ${sc.states.join(", ")}` : "") +
+      (lic ? `${sc ? " · " : ""}<b>Licence:</b> ${lic.id} · ${lic.attribution}` : "");
+  if (sc && $("#scopepill")) $("#scopepill").textContent = sc.states.join(" · ");
+  $("#headpills").innerHTML =
+    `<span class="pill">${MF.season || "2026"} season</span>
+     <span class="pill">updated ${(MF.updated_utc || "").slice(0, 10)}</span>
+     <span class="pill">${WEEKS.length} weeks</span>`;
+  $("#foot").innerHTML = MF.footer_html || "";
+}
+
+function boot(step){ const el = document.getElementById("bootstep"); if (el) el.textContent = step; }
+function bootDone(){ const el = document.getElementById("boot"); if (el) el.remove(); }
+function bootFail(e){
+  const el = document.getElementById("boot");
+  const msg = (e && e.message) ? e.message : String(e);
+  if (el){
+    el.style.borderColor = "#d03b3b";
+    el.innerHTML = `<b>Could not load the portal.</b>
+      <div class="sub mono" style="margin-top:6px">${msg}</div>
+      <div class="sub" style="margin-top:6px">Details are in the browser console.</div>`;
+  }
+  console.error(e);
+}
+
+(async function main(){
+  try {
+    boot("fetching manifest");
+    const r = await fetch("manifest.json");
+    if (!r.ok) throw new Error(`manifest.json: HTTP ${r.status}`);
+    MF = await r.json();
+    WEEKS = MF.weeks; cur = WEEKS.length - 1;
+    if (!WEEKS.length) throw new Error("manifest has no weeks");
+    $("#slider").max = WEEKS.length - 1; $("#slider").value = cur;
+    drawStaticText();
+    await initMap();
+    bind();
+    boot("rendering");
+    await render();
+    bootDone();
+  } catch (e){
+    bootFail(e);
+  }
+})();
+</script>
+</body>
+</html>

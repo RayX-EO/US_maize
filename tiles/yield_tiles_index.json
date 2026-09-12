@@ -1,0 +1,25 @@
+{
+ "week": "2026-09-07",
+ "minzoom": 5,
+ "maxzoom": 12,
+ "kind": "raster",
+ "tilesize": 256,
+ "parts": [
+  {
+   "url": "tiles/yield_2026-09-07_z12_0.pmtiles",
+   "bytes": 90025297
+  },
+  {
+   "url": "tiles/yield_2026-09-07_z12_1.pmtiles",
+   "bytes": 51237628
+  }
+ ],
+ "license": "CC-BY-NC-4.0",
+ "attribution": "\u00a9 RayX EO 2026 \u00b7 CC BY-NC 4.0 \u00b7 Contains modified Copernicus Sentinel-2 data",
+ "bounds": [
+  -101.25,
+  31.95216,
+  -78.75,
+  48.9225
+ ]
+}
