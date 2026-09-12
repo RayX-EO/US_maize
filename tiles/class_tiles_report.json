@@ -1,0 +1,238 @@
+{
+ "2026-08-31": {
+  "week": "2026-08-31",
+  "layer": "crop",
+  "minzoom": 5,
+  "maxzoom": 11,
+  "coarse_below": 10,
+  "n_polygons": 2025366,
+  "n_corn": 1034269,
+  "n_soybean": 991097,
+  "bounds": [
+   -105.00175,
+   35.12503,
+   -79.69676,
+   49.64889
+  ],
+  "per_zoom": [
+   {
+    "z": 5,
+    "tiles": 8,
+    "bytes": 233739,
+    "polys": 23800,
+    "source": "120m planes"
+   },
+   {
+    "z": 6,
+    "tiles": 22,
+    "bytes": 971446,
+    "polys": 102704,
+    "source": "120m planes"
+   },
+   {
+    "z": 7,
+    "tiles": 65,
+    "bytes": 3347686,
+    "polys": 336395,
+    "source": "120m planes"
+   },
+   {
+    "z": 8,
+    "tiles": 220,
+    "bytes": 7060709,
+    "polys": 601888,
+    "source": "120m planes"
+   },
+   {
+    "z": 9,
+    "tiles": 803,
+    "bytes": 22684984,
+    "polys": 1184156,
+    "source": "120m planes"
+   },
+   {
+    "z": 10,
+    "tiles": 2885,
+    "bytes": 151573014,
+    "polys": 2025366,
+    "extents": 8192,
+    "m_per_unit": 4.78,
+    "feats_in": 2104578,
+    "feats_out": 2070812,
+    "encoder_dropped_pct": 1.6044071543083696
+   },
+   {
+    "z": 11,
+    "tiles": 10278,
+    "bytes": 154574674,
+    "polys": 2025366,
+    "extents": 4096,
+    "m_per_unit": 4.78,
+    "feats_in": 2184777,
+    "feats_out": 2146910,
+    "encoder_dropped_pct": 1.7332203698592579
+   }
+  ],
+  "total_bytes": 340446252,
+  "parts": [
+   {
+    "url": "tiles/class_2026-08-31_0.pmtiles",
+    "bytes": 85127081,
+    "bounds": [
+     -105.00175,
+     35.12503,
+     -95.625,
+     49.64889
+    ]
+   },
+   {
+    "url": "tiles/class_2026-08-31_1.pmtiles",
+    "bytes": 85247785,
+    "bounds": [
+     -101.25,
+     35.12503,
+     -90.0,
+     49.64889
+    ]
+   },
+   {
+    "url": "tiles/class_2026-08-31_2.pmtiles",
+    "bytes": 85136397,
+    "bounds": [
+     -92.8125,
+     35.12503,
+     -87.1875,
+     48.9225
+    ]
+   },
+   {
+    "url": "tiles/class_2026-08-31_3.pmtiles",
+    "bytes": 84969849,
+    "bounds": [
+     -90.0,
+     35.12503,
+     -79.69676,
+     48.9225
+    ]
+   }
+  ]
+ },
+ "2026-09-07": {
+  "week": "2026-09-07",
+  "layer": "crop",
+  "minzoom": 5,
+  "maxzoom": 11,
+  "coarse_below": 10,
+  "n_polygons": 2026844,
+  "n_corn": 1036594,
+  "n_soybean": 990250,
+  "bounds": [
+   -105.00175,
+   35.12916,
+   -79.69676,
+   49.65282
+  ],
+  "per_zoom": [
+   {
+    "z": 5,
+    "tiles": 8,
+    "bytes": 236524,
+    "polys": 23924,
+    "source": "120m planes"
+   },
+   {
+    "z": 6,
+    "tiles": 22,
+    "bytes": 973385,
+    "polys": 102981,
+    "source": "120m planes"
+   },
+   {
+    "z": 7,
+    "tiles": 65,
+    "bytes": 3349964,
+    "polys": 336857,
+    "source": "120m planes"
+   },
+   {
+    "z": 8,
+    "tiles": 220,
+    "bytes": 7067398,
+    "polys": 601954,
+    "source": "120m planes"
+   },
+   {
+    "z": 9,
+    "tiles": 809,
+    "bytes": 22697810,
+    "polys": 1182047,
+    "source": "120m planes"
+   },
+   {
+    "z": 10,
+    "tiles": 2918,
+    "bytes": 151481441,
+    "polys": 2026844,
+    "extents": 8192,
+    "m_per_unit": 4.78,
+    "feats_in": 2106120,
+    "feats_out": 2072390,
+    "encoder_dropped_pct": 1.6015231800657133
+   },
+   {
+    "z": 11,
+    "tiles": 10419,
+    "bytes": 154510633,
+    "polys": 2026844,
+    "extents": 4096,
+    "m_per_unit": 4.78,
+    "feats_in": 2186395,
+    "feats_out": 2148586,
+    "encoder_dropped_pct": 1.72928496451922
+   }
+  ],
+  "total_bytes": 340317155,
+  "parts": [
+   {
+    "url": "tiles/class_2026-09-07_0.pmtiles",
+    "bytes": 85135114,
+    "bounds": [
+     -105.00175,
+     35.12916,
+     -95.625,
+     49.65282
+    ]
+   },
+   {
+    "url": "tiles/class_2026-09-07_1.pmtiles",
+    "bytes": 85135359,
+    "bounds": [
+     -101.25,
+     35.12916,
+     -90.0,
+     49.65282
+    ]
+   },
+   {
+    "url": "tiles/class_2026-09-07_2.pmtiles",
+    "bytes": 85089199,
+    "bounds": [
+     -92.8125,
+     35.12916,
+     -87.1875,
+     48.9225
+    ]
+   },
+   {
+    "url": "tiles/class_2026-09-07_3.pmtiles",
+    "bytes": 84992614,
+    "bounds": [
+     -90.0,
+     35.12916,
+     -79.69676,
+     48.9225
+    ]
+   }
+  ]
+ }
+}

@@ -1,0 +1,9 @@
+# NEVER commit generated tiles or intermediate rasters — a single accidental
+# commit bloats git history permanently and there is no clean undo.
+*.tif
+*.tiff
+*.pkl
+*.mbtiles
+vec/
+__pycache__/
+.DS_Store

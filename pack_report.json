@@ -1,0 +1,235 @@
+{
+ "built_utc": "2026-09-12T06:28:56Z",
+ "weeks": [
+  "2026-07-06",
+  "2026-07-13",
+  "2026-07-27",
+  "2026-08-03",
+  "2026-08-10",
+  "2026-08-17",
+  "2026-08-24",
+  "2026-08-31",
+  "2026-09-07"
+ ],
+ "pixel_weeks": [
+  "2026-08-31",
+  "2026-09-07"
+ ],
+ "total_bytes": 685997486,
+ "n_files": 21,
+ "tiles": {
+  "2026-08-31": {
+   "kind": "vector",
+   "bytes": 340481112,
+   "n_polygons": 2025366,
+   "per_zoom": [
+    {
+     "z": 5,
+     "tiles": 8,
+     "bytes": 233739,
+     "polys": 23800,
+     "source": "120m planes"
+    },
+    {
+     "z": 6,
+     "tiles": 22,
+     "bytes": 971446,
+     "polys": 102704,
+     "source": "120m planes"
+    },
+    {
+     "z": 7,
+     "tiles": 65,
+     "bytes": 3347686,
+     "polys": 336395,
+     "source": "120m planes"
+    },
+    {
+     "z": 8,
+     "tiles": 220,
+     "bytes": 7060709,
+     "polys": 601888,
+     "source": "120m planes"
+    },
+    {
+     "z": 9,
+     "tiles": 803,
+     "bytes": 22684984,
+     "polys": 1184156,
+     "source": "120m planes"
+    },
+    {
+     "z": 10,
+     "tiles": 2885,
+     "bytes": 151573014,
+     "polys": 2025366,
+     "extents": 8192,
+     "m_per_unit": 4.78,
+     "feats_in": 2104578,
+     "feats_out": 2070812,
+     "encoder_dropped_pct": 1.6044071543083696
+    },
+    {
+     "z": 11,
+     "tiles": 10278,
+     "bytes": 154574674,
+     "polys": 2025366,
+     "extents": 4096,
+     "m_per_unit": 4.78,
+     "feats_in": 2184777,
+     "feats_out": 2146910,
+     "encoder_dropped_pct": 1.7332203698592579
+    }
+   ]
+  },
+  "2026-09-07": {
+   "kind": "vector",
+   "bytes": 340352286,
+   "n_polygons": 2026844,
+   "per_zoom": [
+    {
+     "z": 5,
+     "tiles": 8,
+     "bytes": 236524,
+     "polys": 23924,
+     "source": "120m planes"
+    },
+    {
+     "z": 6,
+     "tiles": 22,
+     "bytes": 973385,
+     "polys": 102981,
+     "source": "120m planes"
+    },
+    {
+     "z": 7,
+     "tiles": 65,
+     "bytes": 3349964,
+     "polys": 336857,
+     "source": "120m planes"
+    },
+    {
+     "z": 8,
+     "tiles": 220,
+     "bytes": 7067398,
+     "polys": 601954,
+     "source": "120m planes"
+    },
+    {
+     "z": 9,
+     "tiles": 809,
+     "bytes": 22697810,
+     "polys": 1182047,
+     "source": "120m planes"
+    },
+    {
+     "z": 10,
+     "tiles": 2918,
+     "bytes": 151481441,
+     "polys": 2026844,
+     "extents": 8192,
+     "m_per_unit": 4.78,
+     "feats_in": 2106120,
+     "feats_out": 2072390,
+     "encoder_dropped_pct": 1.6015231800657133
+    },
+    {
+     "z": 11,
+     "tiles": 10419,
+     "bytes": 154510633,
+     "polys": 2026844,
+     "extents": 4096,
+     "m_per_unit": 4.78,
+     "feats_in": 2186395,
+     "feats_out": 2148586,
+     "encoder_dropped_pct": 1.72928496451922
+    }
+   ]
+  }
+ },
+ "admin": {
+  "n_counties": 1301,
+  "n_states": 23,
+  "land_acres_by_state": {
+   "AL": 32416530,
+   "AZ": 72739387,
+   "AR": 33275394,
+   "CA": 99749923,
+   "CO": 66327714,
+   "DE": 1247068,
+   "FL": 34338461,
+   "IL": 35528445,
+   "GA": 36938861,
+   "ID": 52892884,
+   "MI": 36230380,
+   "IN": 22928565,
+   "IA": 35746165,
+   "NY": 30158986,
+   "KS": 52325464,
+   "KY": 25270623,
+   "LA": 27656256,
+   "ME": 19740798,
+   "AK": 365454908,
+   "MD": 6215138,
+   "MA": 4992602,
+   "MN": 50964209,
+   "MS": 30031688,
+   "MO": 43997670,
+   "MT": 93152101,
+   "NE": 49162876,
+   "NJ": 4707142,
+   "NM": 77640158,
+   "NC": 31119361,
+   "ND": 44156326,
+   "OH": 26149586,
+   "OK": 43901897,
+   "OR": 61437890,
+   "PA": 28635095,
+   "SC": 19241122,
+   "SD": 48517054,
+   "TN": 26388969,
+   "TX": 167212642,
+   "WV": 15386377,
+   "UT": 52861099,
+   "VT": 5899041,
+   "VA": 25268546,
+   "WA": 42531497,
+   "WI": 34667036,
+   "WY": 62136801,
+   "60": 48867,
+   "69": 116706,
+   "72": 2191585,
+   "CT": 3099113,
+   "RI": 661690,
+   "NV": 70310727,
+   "NH": 5730405,
+   "HI": 4110415,
+   "78": 85998,
+   "66": 134316,
+   "DC": 39121
+  }
+ },
+ "sizes": {
+  "manifest.json": 2539856,
+  "index.html": 38971,
+  "README.md": 3152,
+  ".gitignore": 204,
+  "CNAME.example": 16,
+  ".nojekyll": 0,
+  "pack_report.json": 4587,
+  "tiles/class_2026-08-31_0.pmtiles": 85127081,
+  "tiles/class_2026-08-31_1.pmtiles": 85247785,
+  "tiles/class_2026-08-31_2.pmtiles": 85136397,
+  "tiles/class_2026-08-31_3.pmtiles": 84969849,
+  "tiles/class_2026-09-07_0.pmtiles": 85135114,
+  "tiles/class_2026-09-07_1.pmtiles": 85135359,
+  "tiles/class_2026-09-07_2.pmtiles": 85089199,
+  "tiles/class_2026-09-07_3.pmtiles": 84992614,
+  "tiles/class_tiles_report.json": 3968,
+  "admin/admin_county.geojson": 1213286,
+  "admin/admin_state.geojson": 331863,
+  "lib/maplibre-gl.css": 69422,
+  "lib/maplibre-gl.js": 939269,
+  "lib/pmtiles.js": 19494
+ }
+}
