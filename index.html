@@ -145,11 +145,11 @@ footer{padding:22px 0 40px;color:var(--muted);font-size:12.5px}
         <label>Detail</label>
         <select id="detail">
           <option value="state">State statistics</option>
-          <option value="county" selected>County statistics</option>
+          <option value="county">County statistics</option>
           <!-- ONE option, two products: it resolves to the 10 m yield forecast when the
                quantity is yield and to the 5 m classification when it is crop area, so
                the two thematic surfaces can never be asked for at the same time. -->
-          <option value="fields">Field detail</option>
+          <option value="fields" selected>Field detail</option>
         </select>
       </div>
       <div class="ctrl">
@@ -210,9 +210,11 @@ const IS_YIELD = () => WHAT === "yield";
 // yield is an INTENSITY (bu/ac), not a total: it must not use the area colour scale, which
 // saturates at a percentile of a long-tailed distribution. It gets the published bin edges.
 const YIELD_KEY = "yield_bu_ac";
-/* Opens over central Iowa / Illinois: the densest corn country in the belt. */
-const HOME = { center: [-92.4, 41.6], zoom: 5.6 };
-let MF = null, WEEKS = [], cur = 0, WHAT = "yield", DETAIL = "county",
+/* Opens on the field forecast over the densest corn in the delivered footprint (Mitchell
+   county, IA: 67% of its land classified corn, 223 bu/ac). z11 spans ~67 km, one or two
+   counties across, which is where the 10 m field detail is the point rather than a texture. */
+const HOME = { center: [-92.79, 43.30], zoom: 11 };
+let MF = null, WEEKS = [], cur = 0, WHAT = "yield", DETAIL = "fields",
     BASEMAP = "map", map = null;
 
 const $ = s => document.querySelector(s);
