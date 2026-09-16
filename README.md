@@ -3,7 +3,7 @@
 Weekly satellite forecast of corn yield, crop area and production for the core US Corn Belt,
 published as a static site on GitHub Pages.
 
-Live: https://rayx-eo.github.io/US_maize/
+Live: https://maize.rayx.co.uk/
 
 | path | what |
 |---|---|
