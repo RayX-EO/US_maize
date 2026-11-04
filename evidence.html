@@ -1,0 +1,1231 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WXYYG3BB6R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-WXYYG3BB6R');
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="The core Corn Belt's 2026 corn crop — the evidence record">
+  <meta property="og:description" content="Our satellite forecast for Iowa, Illinois, Minnesota, Missouri and Wisconsin: 201.9 bu/ac (90%: 195.4–208.4), published 16 September with imagery to 7 September. USDA's latest survey forecast for the same states: 204.3. The full evidence, the model's held-out record and a pre-registered test against USDA's January final.">
+  <meta property="og:type" content="article">
+  <meta name="author" content="RayX EO">
+  <meta property="og:url" content="https://maize.rayx.co.uk/evidence.html">
+  <meta property="og:image" content="https://maize.rayx.co.uk/figures/evidence/e1_ledger.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="The core Corn Belt's 2026 corn crop — the evidence record">
+  <meta name="twitter:image" content="https://maize.rayx.co.uk/figures/evidence/e1_ledger.png">
+  <link rel="preconnect" href="https://rsms.me" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <meta name="description" content="An evidence-led record of the 2026 corn crop in five Corn Belt states, from a 10 m satellite forecast to state totals, set beside USDA's survey forecasts.">
+  <title>The core Corn Belt's 2026 corn crop — the evidence record</title>
+  <style>
+    @import url('https://rsms.me/inter/inter.css');
+    :root {
+      --paper: #F7F9FC;
+      --paper-2: #ECF0F6;
+      --white: #ffffff;
+      --ink: #111620;
+      --deep: #0A0D12;
+      --muted: #5F6878;
+      --line: rgba(17, 22, 32, 0.12);
+      --line-strong: rgba(17, 22, 32, 0.22);
+      --sage: #6A86B6;
+      --sage-soft: #DFE7F2;
+      --straw: #B8890F;
+      --straw-soft: #F0E8D3;
+      --blue: #2F6FD0;
+      --blue-soft: #DCE7F5;
+      --clay: #C05A50;
+      --clay-soft: #F1DFDB;
+      --shadow: 0 20px 50px rgba(10, 13, 18, 0.06);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --max: 1240px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: 'Inter','Inter var',-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,sans-serif;
+      font-feature-settings: "ss01","cv11","cv02","cv03";
+      letter-spacing: -.012em;
+      font-size: 17px;
+      line-height: 1.55;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    a { color: inherit; }
+    img, svg { display: block; max-width: 100%; }
+    button, input { font: inherit; }
+
+    .shell { width: min(calc(100% - 40px), var(--max)); margin: 0 auto; }
+    .measure { max-width: 780px; }
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 11px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255,255,255,.58);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .02em;
+    }
+    .kicker::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--sage);
+      box-shadow: 0 0 0 4px rgba(106,134,182,.16);
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+    h1 {
+      margin-bottom: 24px;
+      max-width: 1000px;
+      font-size: clamp(48px, 7vw, 96px);
+      line-height: .95;
+      letter-spacing: -.05em;
+      font-weight: 300;
+    }
+    h2 {
+      margin-bottom: 22px;
+      font-size: clamp(36px, 4.4vw, 64px);
+      line-height: 1.01;
+      letter-spacing: -.042em;
+      font-weight: 300;
+    }
+    h3 {
+      margin-bottom: 11px;
+      font-size: 24px;
+      line-height: 1.18;
+      letter-spacing: -.025em;
+      font-weight: 550;
+    }
+    .lead {
+      max-width: 900px;
+      color: #3A4150;
+      font-size: clamp(20px, 2.2vw, 29px);
+      line-height: 1.36;
+      letter-spacing: -.018em;
+    }
+    .body-large {
+      color: #333A48;
+      font-size: clamp(19px, 1.65vw, 23px);
+      line-height: 1.52;
+    }
+    .muted { color: var(--muted); }
+    .small { color: var(--muted); font-size: 13px; line-height: 1.48; }
+    .caption { color: var(--muted); font-size: 14px; line-height: 1.48; }
+    .nowrap { white-space: nowrap; }
+
+    .topbar {
+      position: sticky;
+      z-index: 20;
+      top: 0;
+      border-bottom: 1px solid rgba(17,22,32,.08);
+      background: rgba(247,249,252,.87);
+      backdrop-filter: blur(18px) saturate(140%);
+      -webkit-backdrop-filter: blur(18px) saturate(140%);
+    }
+    .topbar-inner {
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: 550;
+      letter-spacing: -.025em;
+    }
+    .brand-mark {
+      width: 24px;
+      height: 24px;
+      border: 1.5px solid var(--ink);
+      border-radius: 8px;
+      position: relative;
+      transform: rotate(45deg);
+    }
+    .brand-mark::after {
+      content: "";
+      position: absolute;
+      inset: 5px;
+      border-radius: 3px;
+      background: var(--ink);
+    }
+    .topnav { display: flex; align-items: center; gap: 22px; }
+    .topnav a {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 650;
+      text-decoration: none;
+    }
+    .topnav a:hover { color: var(--ink); }
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 9px;
+      min-height: 46px;
+      padding: 0 17px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      background: var(--ink);
+      color: var(--white);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+    .button:hover { transform: translateY(-1px); box-shadow: 0 9px 25px rgba(0,0,0,.12); }
+    .button.secondary { background: transparent; color: var(--ink); }
+    .button svg { width: 16px; height: 16px; }
+
+    .hero {
+      padding: 84px 0 58px;
+      overflow: hidden;
+      position: relative;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      width: 720px;
+      height: 720px;
+      right: -300px;
+      top: -360px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(143,130,212,.16), rgba(143,130,212,0) 67%);
+      pointer-events: none;
+    }
+    .hero-meta {
+      margin: 28px 0 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .hero-meta span { display: inline-flex; align-items: center; gap: 8px; }
+    .hero-meta span::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--straw); }
+
+    .forecast-panel {
+      margin: 54px 0 0;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: rgba(255,255,255,.64);
+      box-shadow: var(--shadow);
+    }
+    .forecast-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1.05fr 1fr 1fr;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      background: var(--white);
+    }
+    .forecast-cell {
+      min-height: 210px;
+      padding: 24px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .forecast-cell:last-child { border-right: 0; }
+    .forecast-cell.primary {
+      min-height: 310px;
+      background: linear-gradient(145deg, var(--deep), #161C28);
+      color: white;
+    }
+    .forecast-cell .label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+    .forecast-cell.primary .label { color: rgba(255,255,255,.58); }
+    .forecast-cell.call {
+      background: linear-gradient(150deg, #F2F6FC, #E3EBF7);
+    }
+    .forecast-cell.call .label { color: #3E5E93; }
+    .forecast-cell.primary .forecast-note a { color: #fff; }
+    .interval-track.blue { background: rgba(47,111,208,.14); }
+    .interval-track.blue .range { background: rgba(47,111,208,.40); }
+    .interval-track.blue .point { background: var(--blue); border-color: #F2F6FC; }
+    .forecast-cell.call .metric { font-size: clamp(38px, 4vw, 60px); }
+    .interval-track.gold { background: rgba(184,137,15,.14); }
+    .interval-track.gold .range { background: rgba(184,137,15,.40); }
+    .interval-track.gold .point { background: var(--straw); border-color: #FCF8ED; }
+    .metric {
+      margin: 16px 0 4px;
+      font-size: clamp(44px, 5vw, 77px);
+      line-height: .88;
+      letter-spacing: -.06em;
+      font-weight: 300;
+    }
+    .metric-sm {
+      margin: 18px 0 3px;
+      font-size: clamp(32px, 3.2vw, 48px);
+      line-height: .98;
+      letter-spacing: -.045em;
+      font-weight: 600;
+    }
+    .unit { font-size: .38em; letter-spacing: -.01em; font-weight: 650; opacity: .72; }
+    .interval-track {
+      position: relative;
+      height: 7px;
+      margin: 24px 0 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.16);
+    }
+    .interval-track .range {
+      position: absolute;
+      left: 22%;
+      right: 16%;
+      top: 0;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--straw);
+    }
+    .interval-track .point {
+      position: absolute;
+      left: 54%;
+      top: 50%;
+      width: 13px;
+      height: 13px;
+      border: 3px solid var(--deep);
+      border-radius: 50%;
+      background: white;
+      transform: translate(-50%,-50%);
+    }
+    .forecast-note { color: rgba(255,255,255,.65); font-size: 13px; }
+    .forecast-cell.call .forecast-note { color: var(--muted); }
+    .forecast-cell.call .forecast-note a { color: var(--ink); }
+    .scope-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 18px 4px 2px;
+    }
+    .scope-chip {
+      padding: 8px 11px;
+      border-radius: 999px;
+      background: var(--paper-2);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    section { padding: 104px 0; border-top: 1px solid var(--line); }
+    .section-head {
+      display: grid;
+      grid-template-columns: 150px minmax(0, 1fr);
+      align-items: start;
+      gap: 34px;
+      margin-bottom: 50px;
+    }
+    .section-number {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .1em;
+    }
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+    .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .card {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,.66);
+    }
+    .card.white { background: var(--white); }
+    .card.dark { background: var(--deep); color: var(--white); }
+    .card.dark .muted, .card.dark .small, .card.dark .caption { color: rgba(255,255,255,.62); }
+    .card.straw { background: var(--straw-soft); }
+    .card.sage { background: var(--sage-soft); }
+    .card.blue { background: var(--blue-soft); }
+    .card.clay { background: var(--clay-soft); }
+    .card-topline { display: flex; justify-content: space-between; gap: 20px; align-items: baseline; margin-bottom: 22px; }
+    .card-label { color: var(--muted); font-size: 12px; font-weight: 600; letter-spacing: .09em; text-transform: uppercase; }
+    .card.dark .card-label { color: rgba(255,255,255,.53); }
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 27px;
+      padding: 0 9px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .tag.observed { background: var(--blue-soft); }
+    .tag.modelled { background: var(--sage-soft); }
+    .tag.association { background: var(--straw-soft); }
+    .tag.context { background: var(--clay-soft); }
+
+    .quote-card {
+      padding: 38px;
+      border-radius: var(--radius-lg);
+      background: var(--deep);
+      color: white;
+    }
+    .quote-card blockquote {
+      margin: 0;
+      max-width: 930px;
+      font-size: clamp(27px, 3.2vw, 45px);
+      line-height: 1.18;
+      letter-spacing: -.035em;
+      font-weight: 630;
+    }
+    .quote-card footer { margin-top: 26px; color: rgba(255,255,255,.56); font-size: 13px; }
+
+    .scope-table {
+      margin-top: 26px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: rgba(255,255,255,.7);
+    }
+    .scope-item {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      gap: 24px;
+      padding: 18px 21px;
+      border-bottom: 1px solid var(--line);
+    }
+    .scope-item:last-child { border-bottom: 0; }
+    .scope-item strong { font-size: 14px; }
+    .scope-item span { color: var(--muted); font-size: 14px; }
+
+    .regional-wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(320px, .75fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+    .region-chart { padding: 30px; }
+    .region-row {
+      display: grid;
+      grid-template-columns: 175px minmax(130px,1fr) 66px;
+      gap: 16px;
+      align-items: center;
+      margin: 18px 0;
+    }
+    .region-name { font-size: 14px; font-weight: 650; }
+    .bar-track { height: 13px; border-radius: 999px; background: var(--paper-2); overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--straw), var(--blue)); }
+    .bar-value { font-size: 14px; font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; }
+    .axis {
+      display: grid;
+      grid-template-columns: 175px 1fr 66px;
+      gap: 16px;
+      margin-top: 12px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+    .axis-scale { display: flex; justify-content: space-between; }
+
+    .weather-split {
+      height: 100%;
+      padding: 30px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .weather-figure {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 26px 0;
+    }
+    .weather-box {
+      min-height: 155px;
+      padding: 20px;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .weather-box.north { background: var(--blue-soft); }
+    .weather-box.south { background: var(--straw-soft); }
+    .weather-num { font-size: 47px; line-height: .9; letter-spacing: -.05em; font-weight: 300; }
+
+    .distribution {
+      margin-top: 22px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: var(--white);
+    }
+    .distribution-bar {
+      display: flex;
+      height: 54px;
+      overflow: hidden;
+      border-radius: 12px;
+      background: var(--paper-2);
+    }
+    .distribution-bar > div { display: flex; align-items: center; justify-content: center; min-width: 34px; font-size: 12px; font-weight: 600; }
+    .distribution-bar .low { width: 7.9%; background: var(--clay); color: white; }
+    .distribution-bar .middle { width: 86.0%; background: var(--straw-soft); color: #5A4E2E; }
+    .distribution-bar .high { width: 6.1%; background: var(--sage); color: white; }
+    .distribution-legend { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 16px; }
+    .dist-key { display: flex; gap: 9px; align-items: flex-start; font-size: 13px; color: var(--muted); }
+    .swatch { width: 10px; height: 10px; margin-top: 5px; border-radius: 3px; flex: 0 0 auto; }
+
+    .timeline {
+      position: relative;
+      margin-top: 28px;
+      padding: 32px 24px 24px;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-md);
+      background: white;
+    }
+    .timeline-inner { min-width: 880px; }
+    .timeline-line { height: 2px; background: var(--line-strong); margin: 52px 24px 0; }
+    .timeline-points { display: grid; grid-template-columns: repeat(6,1fr); transform: translateY(-38px); }
+    .timepoint { padding: 0 12px; text-align: center; }
+    .timepoint::before {
+      content: "";
+      display: block;
+      width: 15px;
+      height: 15px;
+      margin: 0 auto 13px;
+      border: 4px solid white;
+      border-radius: 50%;
+      background: var(--sage);
+      box-shadow: 0 0 0 1px var(--line-strong);
+    }
+    .timepoint.highlight::before { background: var(--straw); }
+    .timepoint .date { font-size: 12px; font-weight: 600; }
+    .timepoint .event { margin-top: 5px; color: var(--muted); font-size: 12px; line-height: 1.38; }
+
+    .signal-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; margin-top: 22px; }
+    .signal-card { padding: 26px; min-height: 245px; display: flex; flex-direction: column; justify-content: space-between; }
+    .signal-number { font-size: 55px; line-height: .9; letter-spacing: -.055em; font-weight: 300; }
+    .signal-equals { margin: 20px 0 7px; height: 5px; border-radius: 999px; background: rgba(23,24,20,.12); }
+    .signal-equals > span { display: block; height: 100%; border-radius: inherit; background: var(--sage); }
+
+    .chain {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(150px,1fr));
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+    }
+    .chain-step {
+      min-width: 160px;
+      min-height: 200px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: white;
+      position: relative;
+    }
+    .chain-step:not(:last-child)::after {
+      content: "→";
+      position: absolute;
+      top: 50%;
+      right: -18px;
+      z-index: 3;
+      width: 26px;
+      height: 26px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--paper);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform: translateY(-50%);
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .step-no { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .08em; }
+    .step-title { margin: 24px 0 8px; font-size: 17px; font-weight: 550; letter-spacing: -.02em; }
+    .step-copy { color: var(--muted); font-size: 13px; line-height: 1.46; }
+
+    .validation {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 20px;
+      margin-top: 34px;
+    }
+    .validation-main { padding: 34px; }
+    .validation-stat { font-size: clamp(76px, 9vw, 126px); line-height: .85; letter-spacing: -.075em; font-weight: 300; }
+    .validation-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; overflow: hidden; margin-top: 28px; border: 1px solid var(--line); border-radius: 14px; background: var(--line); }
+    .validation-mini { padding: 17px; background: white; }
+    .validation-mini b { display: block; font-size: 24px; letter-spacing: -.035em; }
+    .validation-mini span { color: var(--muted); font-size: 11px; }
+    .missing-metrics { display: grid; gap: 10px; margin-top: 20px; }
+    .missing-metric { padding: 13px 15px; border: 1px dashed var(--line-strong); border-radius: 12px; color: var(--muted); font-size: 13px; }
+    .missing-metric.done { border-style: solid; border-color: var(--line); background: var(--white); }
+    .missing-metric.done b { display: block; color: var(--ink); font-size: 16px; letter-spacing: -.02em; margin-bottom: 3px; }
+
+    .evidence-matrix { display: grid; gap: 12px; }
+    .evidence-row {
+      display: grid;
+      grid-template-columns: 180px 1.25fr 1fr 1.2fr;
+      gap: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 15px;
+      background: white;
+    }
+    .evidence-row > div { padding: 18px; border-right: 1px solid var(--line); }
+    .evidence-row > div:last-child { border-right: 0; }
+    .source-name { font-weight: 600; letter-spacing: -.018em; }
+    .evidence-row p { margin: 6px 0 0; color: var(--muted); font-size: 13px; line-height: 1.43; }
+    .current-value { font-size: 20px; font-weight: 550; letter-spacing: -.025em; }
+    .matrix-head { background: var(--paper-2); }
+    .matrix-head > div { color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; }
+
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 160px 1fr;
+      gap: 18px;
+      align-items: stretch;
+      margin: 30px 0;
+    }
+    .comparison-source { min-height: 320px; padding: 30px; display: flex; flex-direction: column; justify-content: space-between; }
+    .comparison-number { font-size: clamp(62px, 7vw, 102px); line-height: .86; letter-spacing: -.07em; font-weight: 300; }
+    .bridge { display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+    .bridge-item { padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,.55); text-align: center; color: var(--muted); font-size: 11px; font-weight: 600; }
+    .bridge-arrow { text-align: center; color: var(--muted); }
+
+    .moisture {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 20px;
+      margin-top: 26px;
+    }
+    .formula { padding: 30px; background: var(--blue-soft); border-radius: var(--radius-md); }
+    .formula-code {
+      margin: 26px 0 14px;
+      padding: 18px;
+      overflow-x: auto;
+      border-radius: 12px;
+      background: rgba(255,255,255,.72);
+      font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 14px;
+    }
+    .sensitivity { display: grid; grid-template-columns: repeat(3,1fr); gap: 9px; margin-top: 22px; }
+    .sensitivity > div { padding: 16px; border: 1px solid rgba(23,24,20,.12); border-radius: 12px; background: rgba(255,255,255,.5); }
+    .sensitivity b { display: block; font-size: 26px; letter-spacing: -.035em; }
+    .sensitivity span { color: var(--muted); font-size: 11px; }
+
+    .audit {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+    .audit-record { overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius-md); background: white; }
+    .audit-row { display: grid; grid-template-columns: 42% 58%; border-bottom: 1px solid var(--line); }
+    .audit-row:last-child { border-bottom: 0; }
+    .audit-row > div { padding: 14px 16px; font-size: 13px; }
+    .audit-row > div:first-child { background: var(--paper-2); color: var(--muted); font-weight: 660; }
+    .audit-row > div:last-child { font-variant-numeric: tabular-nums; }
+    .todo { color: var(--muted); }
+    .test-list { counter-reset: tests; display: grid; gap: 11px; margin-top: 22px; }
+    .test-item { counter-increment: tests; position: relative; padding: 18px 18px 18px 58px; border: 1px solid var(--line); border-radius: 13px; background: rgba(255,255,255,.58); }
+    .test-item::before {
+      content: counter(tests);
+      position: absolute;
+      left: 17px;
+      top: 17px;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: var(--ink);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .field-record {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      background: white;
+      box-shadow: var(--shadow);
+    }
+    .field-visual {
+      min-height: 520px;
+      padding: 28px;
+      background: var(--paper-2);
+      position: relative;
+      overflow: hidden;
+    }
+    .field-visual img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; padding: 30px; }
+    .map-pill { position: relative; z-index: 2; display: inline-flex; padding: 8px 11px; border-radius: 999px; background: rgba(255,255,255,.86); font-size: 12px; font-weight: 600; box-shadow: 0 8px 22px rgba(0,0,0,.08); }
+    .field-detail { padding: 38px; }
+    .sparkline { margin: 30px 0; height: 120px; position: relative; border-bottom: 1px solid var(--line); }
+    .sparkline svg { width: 100%; height: 100%; overflow: visible; }
+    .field-metrics { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+    .field-metric { padding: 15px; border: 1px solid var(--line); border-radius: 12px; }
+    .field-metric b { display: block; font-size: 23px; letter-spacing: -.03em; }
+    .field-metric span { color: var(--muted); font-size: 11px; }
+
+    .conclusion {
+      padding: 104px 0 90px;
+      background: var(--deep);
+      color: white;
+    }
+    .conclusion h2 { max-width: 900px; }
+    .conclusion p { color: rgba(255,255,255,.7); }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .conclusion .button { border-color: white; background: white; color: var(--ink); }
+    .conclusion .button.secondary { background: transparent; color: white; }
+
+    .sources { padding: 74px 0 40px; background: var(--deep); color: white; border-top: 1px solid rgba(255,255,255,.14); }
+    .sources-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 50px; }
+    .source-links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px 26px; }
+    .source-links a { color: rgba(255,255,255,.7); font-size: 13px; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    .source-links a:hover { color: white; }
+    .disclaimer { margin-top: 48px; padding-top: 26px; border-top: 1px solid rgba(255,255,255,.13); color: rgba(255,255,255,.55); font-size: 12px; line-height: 1.6; }
+    .prototype-note { margin-top: 14px; color: rgba(255,255,255,.48); font-size: 11px; }
+
+    details { border-top: 1px solid var(--line); padding: 17px 0; }
+    details:last-child { border-bottom: 1px solid var(--line); }
+    summary { cursor: pointer; font-weight: 700; list-style: none; }
+    summary::-webkit-details-marker { display: none; }
+    summary::after { content: "+"; float: right; color: var(--muted); }
+    details[open] summary::after { content: "−"; }
+    details p { margin: 13px 0 0; color: var(--muted); font-size: 14px; }
+
+    .reveal { opacity: 0; transform: translateY(14px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+
+
+    .defra-strip { position: relative; height: 138px; margin: 28px 0 6px; }
+    .defra-strip::before { content: ""; position: absolute; left: 0; right: 0; top: 66px; height: 2px; background: var(--line-strong); }
+    .ds-band { position: absolute; top: 57px; height: 20px; background: rgba(47,111,208,.15); border-radius: 10px; }
+    .ds-now { position: absolute; top: 67px; width: 19px; height: 19px; border-radius: 50%; background: var(--blue); border: 3px solid #fff; transform: translate(-50%,-50%); box-shadow: 0 1px 7px rgba(10,13,18,.22); z-index: 3; }
+    .ds-dot { position: absolute; top: 67px; transform: translateX(-50%); z-index: 2; }
+    .ds-dot i { display: block; width: 11px; height: 11px; border-radius: 50%; background: #9AA4B5; border: 2px solid #fff; transform: translateY(-50%); }
+    .ds-dot.sq i { border-radius: 3px; background: var(--straw); }
+    .ds-dot span { position: absolute; top: 14px; left: 50%; transform: translateX(-50%); font-size: 11px; color: var(--muted); text-align: center; line-height: 1.3; white-space: nowrap; }
+    .ds-dot.up span { top: auto; bottom: 18px; }
+    .ds-dot.ours span { color: var(--blue); font-weight: 650; }
+    .ds-call { position: absolute; top: 57px; height: 20px; background: rgba(184,137,15,.30); border: 1px solid rgba(184,137,15,.55); border-radius: 10px; z-index: 1; }
+    .ds-lab { position: absolute; transform: translateX(-50%); font-size: 11px; white-space: nowrap; text-align: center; line-height: 1.3; }
+    .ds-lab.gold { color: #8A6A10; font-weight: 650; bottom: 88px; }
+    .ds-dot.d2 span { top: 40px; }
+    .figure-plate { margin-top: 22px; padding: 26px; }
+    .figure-plate img { width: 100%; border-radius: 12px; }
+    .figure-plate .caption { margin: 16px 0 0; }
+
+    @media (max-width: 1000px) {
+      .forecast-grid { grid-template-columns: 1fr 1fr; }
+      .forecast-cell:nth-child(2) { border-right: 0; }
+      .forecast-cell.primary { min-height: 250px; }
+      .regional-wrap, .validation, .moisture, .audit, .field-record { grid-template-columns: 1fr; }
+      .signal-grid { grid-template-columns: 1fr; }
+      .evidence-row { grid-template-columns: 150px 1fr 1fr; }
+      .evidence-row > div:nth-child(4) { grid-column: 1 / -1; border-top: 1px solid var(--line); border-right: 0; }
+      .matrix-head > div:nth-child(4) { display: none; }
+      .comparison { grid-template-columns: 1fr; }
+      .bridge { flex-direction: row; flex-wrap: wrap; }
+      .bridge-arrow { display: none; }
+      .sources-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 760px) {
+      body { font-size: 16px; }
+      .shell { width: min(calc(100% - 24px), var(--max)); }
+      .topnav a:not(.button) { display: none; }
+      .topbar-inner { min-height: 58px; }
+      .hero { padding: 58px 0 38px; }
+      h1 { font-size: clamp(43px, 14vw, 64px); }
+      section { padding: 76px 0; }
+      .section-head { grid-template-columns: 1fr; gap: 8px; margin-bottom: 36px; }
+      .forecast-panel { margin-top: 36px; padding: 10px; }
+      .forecast-grid { grid-template-columns: 1fr; }
+      .forecast-cell { min-height: 180px; border-right: 0; border-bottom: 1px solid var(--line); }
+      .forecast-cell:last-child { border-bottom: 0; }
+      .forecast-cell.primary { min-height: 280px; }
+      .two-col, .three-col { grid-template-columns: 1fr; }
+      .quote-card { padding: 27px; }
+      .scope-item { grid-template-columns: 1fr; gap: 5px; }
+      .region-row { grid-template-columns: 115px 1fr 55px; gap: 9px; }
+      .axis { grid-template-columns: 115px 1fr 55px; gap: 9px; }
+      .weather-figure, .distribution-legend { grid-template-columns: 1fr; }
+      .validation-grid { grid-template-columns: 1fr; }
+      .evidence-row { grid-template-columns: 1fr; }
+      .evidence-row > div { border-right: 0; border-bottom: 1px solid var(--line); }
+      .evidence-row > div:last-child { border-bottom: 0; }
+      .matrix-head { display: none; }
+      .sensitivity { grid-template-columns: 1fr; }
+      .audit-row { grid-template-columns: 1fr; }
+      .audit-row > div:first-child { padding-bottom: 4px; }
+      .audit-row > div:last-child { padding-top: 4px; }
+      .field-visual { min-height: 360px; }
+      .field-detail { padding: 28px; }
+      .source-links { grid-template-columns: 1fr; }
+      .button { min-height: 43px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .button { transition: none; }
+    }
+  </style>
+  <style>
+    /* phones: the browser's default 40px side margins on <figure> squeeze the charts */
+    @media (max-width: 760px) {
+      figure.figure-plate { margin-left: 0; margin-right: 0; padding: 18px; }
+    }
+  </style>
+  <noscript><style>.reveal { opacity: 1; transform: none; }</style></noscript>
+</head>
+<body>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="#top" aria-label="US maize evidence home">
+        <span>US Maize <span class="muted">2026</span></span>
+      </a>
+      <nav class="topnav" aria-label="Page navigation">
+        <a href="#number">The number</a>
+        <a href="#states">The states</a>
+        <a href="#space">The map</a>
+        <a href="#record">The record</a>
+        <a href="#audit">Audit record</a>
+        <a class="button" href="https://maize.rayx.co.uk/" target="_blank" rel="noopener">Explore the field map</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <header class="hero">
+      <div class="shell">
+        <span class="kicker">2026 corn evidence record · compiled 4 November 2026</span>
+        <h1>The core Corn Belt’s 2026 corn crop, from field to state total.</h1>
+        <p class="lead">Iowa, Illinois, Minnesota, Missouri and Wisconsin planted 40.0 million acres of corn this year, by USDA’s June survey. Our satellite forecast, published on 16 September with imagery to 7 September, puts their yield at 201.9 bu/ac. USDA’s latest survey forecast for the same states is 204.3. This record sets the two side by side, keeps what each one measures attached, and fixes the test that USDA’s final numbers will settle in January.</p>
+        <div class="hero-meta" aria-label="Release metadata">
+          <span>Forecast published 16 September 2026</span>
+          <span>Yield imagery to 7 Sep · crop map to 3 Sep</span>
+          <span>IA · IL · MN · MO · WI corn</span>
+          <span>Evidence compiled 4 November 2026</span>
+        </div>
+
+        <div class="forecast-panel reveal" aria-label="Forecast at a glance">
+          <div class="forecast-grid">
+            <article class="forecast-cell primary">
+              <div>
+                <div class="label">Five-state corn yield &middot; our call</div>
+                <div class="metric">201.9 <span class="unit">bu/ac</span></div>
+                <div class="interval-track" aria-label="90 percent interval 195.4 to 208.4 bushels per acre">
+                  <span class="range" style="left:26.5%;right:27.2%"></span><span class="point" style="left:49.6%"></span>
+                </div>
+                <div class="forecast-note">90% interval · 195.4–208.4 · 12.68 t/ha</div>
+              </div>
+              <div class="forecast-note">Published 16 September and unchanged since &mdash; the number USDA’s January final will test. <a href="#audit">The audit record</a>.</div>
+            </article>
+            <article class="forecast-cell call">
+              <div>
+                <div class="label">USDA NASS &middot; 1 October forecast</div>
+                <div class="metric">204.3 <span class="unit">bu/ac</span></div>
+                <div class="interval-track blue" aria-label="USDA forecasts from 204.3 to 205.0 bushels per acre between August and October">
+                  <span class="range" style="left:58.4%;right:39.4%"></span><span class="point" style="left:58.4%"></span>
+                </div>
+                <div class="forecast-note" style="color:#3E5E93">Aug 205.0 → Sep 204.5 → Oct 204.3</div>
+              </div>
+              <div class="forecast-note">The same five states, weighted by harvested area. A survey forecast, revised monthly until the January final. Our call is −2.4 bu/ac (−1.2%) below it.</div>
+            </article>
+            <article class="forecast-cell">
+              <div class="label">Mapped corn area</div>
+              <div>
+                <div class="metric-sm">39.68 <span class="unit">M ac</span></div>
+                <p class="small">±0.07 M · 95%, classification error only</p>
+              </div>
+              <p class="small">USDA June planted: 40.0 M (−0.8%).</p>
+            </article>
+            <article class="forecast-cell">
+              <div class="label">Production</div>
+              <div>
+                <div class="metric-sm">8.01 <span class="unit">bn bu</span></div>
+                <p class="small">203.6 Mt on our mapped area</p>
+              </div>
+              <p class="small">USDA 1 Oct: 7.89 bn bu on harvested-for-grain area.</p>
+            </article>
+          </div>
+          <div class="scope-row" aria-label="Forecast scope">
+            <span class="scope-chip">Crop · corn (grain and silage on the map)</span>
+            <span class="scope-chip">Geography · IA IL MN MO WI</span>
+            <span class="scope-chip">Yield imagery · to 7 Sep</span>
+            <span class="scope-chip">Counties · 474 of 475</span>
+            <span class="scope-chip">Output · 10 m pixel → county → state</span>
+            <span class="scope-chip">Status · model forecast</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <section aria-labelledby="read-basis-title">
+      <div class="shell">
+        <div class="section-head">
+          <div class="section-number">READING NOTE</div>
+          <div>
+            <p class="eyebrow">Before comparing the numbers</p>
+            <h2 id="read-basis-title">Each source sees a different part of the crop.</h2>
+            <p class="body-large measure">A satellite field forecast, a survey of farm operators, a crop-tour sample and USDA’s final statistics are all useful. They do not measure the same thing, on the same ground, at the same time.</p>
+          </div>
+        </div>
+
+        <div class="quote-card reveal">
+          <blockquote>“The aim is not to decide which number wins. It is to show what each instrument observed, where the evidence aligns, where it pulls apart and what the final statistics will test.”</blockquote>
+          <footer>Editorial principle, shared with the UK wheat record</footer>
+        </div>
+
+        <div class="scope-table reveal" aria-label="Different source bases">
+          <div class="scope-item"><strong>Our field record</strong><span>Corn yield forecast for every 10 m pixel of the 474 delivered counties from Sentinel-2 imagery to 7 September, averaged over the corn of a 5 m crop map.</span></div>
+          <div class="scope-item"><strong>USDA Crop Production</strong><span>Monthly state forecasts from a survey of farm operators and, in these states, objective counts in sampled fields. Corn harvested for grain; final in January.</span></div>
+          <div class="scope-item"><strong>USDA June Acreage</strong><span>Planted area from a survey of farm operators, released 30 June and revised later.</span></div>
+          <div class="scope-item"><strong>Pro Farmer Crop Tour</strong><span>Yield potential from ear counts in sampled fields along fixed routes, 17–20 August. Not a harvest estimate.</span></div>
+          <div class="scope-item"><strong>NASS final statistics</strong><span>The official 2026 yields: states in the January annual summary, counties later in 2027. Not yet published.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="number" aria-labelledby="number-title">
+      <div class="shell">
+        <div class="section-head">
+          <div class="section-number">01 / THE NUMBER</div>
+          <div>
+            <p class="eyebrow">The headline, with its basis attached</p>
+            <h2 id="number-title">Five states, one number: 201.9 against USDA’s 204.3.</h2>
+            <p class="body-large measure">USDA’s three survey forecasts for these states moved only 0.7 bu/ac between August and October. Our published call sits 2.4 bu/ac (1.2%) below the latest. Weighted the way USDA weights it, by harvested area, our five-state yield is 202.1; on our own corn map it is 201.9.</p>
+          </div>
+        </div>
+
+        <figure class="card white figure-plate reveal">
+          <div class="card-topline">
+            <figcaption>
+              <div class="card-label">The instruments on one axis</div>
+              <h3 style="margin-top:8px">Every five-state number, read with the matrix above.</h3>
+            </figcaption>
+            <span class="tag context">Convenience view</span>
+          </div>
+          <a href="figures/evidence/e1_ledger.png" target="_blank" rel="noopener" style="display:block;margin-top:18px"><picture><source media="(max-width:680px)" srcset="figures/evidence/m/e1_ledger.png"><img src="figures/evidence/e1_ledger.png" alt="Dot and interval chart of five-state 2026 corn yields: USDA's forecasts of 12 August (205.0), 11 September (204.5) and 9 October (204.3) bushels per acre; our published call of 201.9 with a 90 percent interval of 195.4 to 208.4; our superseded first issue of 204.9; a sensitivity of 206.5 with a range of 200.4 to 212.7; and the 2025 final of 205.1." loading="lazy" style="width:100%;height:auto;display:block"></picture></a>
+          <p class="caption">Blue: our published call and its 90% interval. Magenta: USDA’s monthly forecasts, weighted by harvested area from its state tables. Grey: our superseded first issue (12 September, 361 counties, before the yield run covered the five states) and last year’s NASS final for scale. The open blue point is a sensitivity, not a revised call: the published number plus the model’s held-out offset (section 05).</p>
+        </figure>
+
+        <div class="two-col" style="margin-top:22px">
+          <article class="card sage reveal">
+            <div class="card-label">Where the evidence aligns</div>
+            <h3 style="margin-top:10px">The totals: yield within 1.2%, area within 0.8%.</h3>
+            <p class="muted">Our five-state yield is within 1.2% of USDA’s October forecast, and our corn map is within 0.8% of USDA’s June planted acres. Both totals came from the same ground in the same week.</p>
+          </article>
+          <article class="card straw reveal">
+            <div class="card-label">What this does not show</div>
+            <h3 style="margin-top:10px">Agreeing with a forecast is not accuracy.</h3>
+            <p class="muted">USDA’s numbers are survey forecasts and will be revised. Our call was published after USDA’s September report; the forecast uses no 2026 USDA number, but the comparison with August and September is not a blind test. The test is the January final.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="states" aria-labelledby="states-title">
+      <div class="shell">
+        <div class="section-head">
+          <div class="section-number">02 / STATES</div>
+          <div>
+            <p class="eyebrow">Where the evidence pulls apart</p>
+            <h2 id="states-title">The state pattern is flatter than USDA’s.</h2>
+            <p class="body-large measure">State by state the gaps are larger, and they cancel. Our call is 7.9 and 5.9 bu/ac below USDA in Iowa and Illinois, 8.7 and 6.9 above it in Minnesota and Wisconsin, and 3.8 below in Missouri: 6.6 bu/ac on average. Our map ranks Minnesota above Illinois; USDA does not.</p>
+          </div>
+        </div>
+
+        <figure class="card white figure-plate reveal">
+          <div class="card-topline">
+            <figcaption>
+              <div class="card-label">State by state</div>
+              <h3 style="margin-top:8px">Our call against USDA’s three forecasts and the August crop tour.</h3>
+            </figcaption>
+            <span class="tag observed">Survey · model · sample</span>
+          </div>
+          <a href="figures/evidence/e2_states.png" target="_blank" rel="noopener" style="display:block;margin-top:18px"><picture><source media="(max-width:680px)" srcset="figures/evidence/m/e2_states.png"><img src="figures/evidence/e2_states.png" alt="State corn yields for 2026. Iowa: ours 211.1, USDA 1 October 219. Illinois: ours 202.1, USDA 208. Minnesota: ours 203.7, USDA 195. Wisconsin: ours 188.9, USDA 182. Missouri: ours 177.2, USDA 181. Pro Farmer tour samples: Iowa 194.0, Illinois 184.2, Minnesota 199.0." loading="lazy" style="width:100%;height:auto;display:block"></picture></a>
+          <p class="caption">Our call (blue) against USDA’s 1 August and 1 September forecasts (open) and its 1 October forecast (filled), and the Pro Farmer Crop Tour’s mid-August samples (grey diamonds; Iowa, Illinois and Minnesota only). The right column is our call minus USDA’s October forecast.</p>
+        </figure>
+
+        <div class="two-col" style="margin-top:22px">
+          <article class="card white reveal">
+            <div class="card-topline"><span class="card-label">What the record says about each state</span><span class="tag association">2018–2025, held out</span></div>
+            <p class="muted" style="margin-top:12px">Held out year by year, the model read Illinois low in every season (−17.0 bu/ac on average) and Iowa low in most (−5.4). Minnesota ran −3.7, Wisconsin +1.4, and Missouri swung widely, from −8.5 to +27.1. In 2026 the Illinois gap to USDA (−5.9) is smaller than its record; Minnesota’s (+8.7) runs against it.</p>
+          </article>
+          <article class="card white reveal">
+            <div class="card-topline"><span class="card-label">The crop tour reads lower</span><span class="tag context">Field samples</span></div>
+            <p class="muted" style="margin-top:12px">Pro Farmer’s route samples of 17–20 August put Iowa at 194.0, Illinois at 184.2 and Minnesota at 199.0 bu/ac. That is yield potential from ear counts, not a harvest estimate. It sits below both USDA and our call in Iowa and Illinois, and between them in Minnesota.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="space" aria-labelledby="space-title">
+      <div class="shell">
+        <div class="section-head">
+          <div class="section-number">03 / SPACE</div>
+          <div>
+            <p class="eyebrow">The geography behind the total</p>
+            <h2 id="space-title">474 counties, from 127.3 to 240.5 bu/ac.</h2>
+            <p class="body-large measure">The forecast is made for every 10 m pixel and averaged over each county’s corn. Weighted by corn acres, half the crop sits above 206 bu/ac and the middle 80% between 174 and 223. The high ground runs from southern Minnesota, where Dodge, Steele and Waseca counties top the map at 237.2–240.5, through north-central Iowa into northwestern Illinois. The counties below 150 bu/ac hold 0.4% of the corn.</p>
+          </div>
+        </div>
+
+        <figure class="card white figure-plate reveal">
+          <div class="card-topline">
+            <figcaption>
+              <div class="card-label">The measured record</div>
+              <h3 style="margin-top:8px">County yield forecasts, data to 7 September.</h3>
+            </figcaption>
+            <span class="tag modelled">Model estimate</span>
+          </div>
+          <a href="figures/evidence/e3_county_map.png" target="_blank" rel="noopener" style="display:block;margin-top:18px"><picture><source media="(max-width:680px)" srcset="figures/evidence/m/e3_county_map.png"><img src="figures/evidence/e3_county_map.png" alt="Map of forecast corn yield for 474 counties in Minnesota, Wisconsin, Iowa, Illinois and Missouri. Yields are highest from southern Minnesota through north-central Iowa into northwestern Illinois, and lowest toward the edges: northern Minnesota and Wisconsin, southern Iowa and Illinois, and Missouri." loading="lazy" style="width:100%;height:auto;display:block"></picture></a>
+          <p class="caption">County mean of the 10 m forecast over classified corn. Beige: below 150 bu/ac, mostly counties with little corn. Hatched: St. Louis city, the one county below the delivery threshold. <a href="https://maize.rayx.co.uk/">The live map</a> shows the same forecast field by field.</p>
+        </figure>
+      </div>
+    </section>
+
+    <section id="area" aria-labelledby="area-title">
+      <div class="shell">
+        <div class="section-head">
+          <div class="section-number">04 / AREA</div>
+          <div>
+            <p class="eyebrow">The other half of production</p>
+            <h2 id="area-title">Corn area within 0.8% of June planted acres.</h2>
+            <p class="body-large measure">Area is a direct count of the 5 m map’s corn pixels inside county lines; no survey number enters it. Every state is within ±2.3% of USDA’s June planted acres. USDA’s harvested-for-grain area is lower again, most of all in Wisconsin (−18.4%), where much of the corn is cut for silage.</p>
+          </div>
+        </div>
+
+        <figure class="card white figure-plate reveal">
+          <div class="card-topline">
+            <figcaption>
+              <div class="card-label">Area</div>
+              <h3 style="margin-top:8px">Mapped corn and harvested-for-grain area against June planted acres.</h3>
+            </figcaption>
+            <span class="tag observed">Map count · survey</span>
+          </div>
+          <a href="figures/evidence/e4_area.png" target="_blank" rel="noopener" style="display:block;margin-top:18px"><picture><source media="(max-width:680px)" srcset="figures/evidence/m/e4_area.png"><img src="figures/evidence/e4_area.png" alt="Corn area by state as a difference from USDA June planted acres. Our mapped corn: Iowa −1.8%, Illinois −2.3%, Minnesota +2.2%, Wisconsin −2.1%, Missouri +1.5%, five states −0.8%. USDA harvested for grain: Wisconsin −18.4%, five states −3.4%." loading="lazy" style="width:100%;height:auto;display:block"></picture></a>
+          <p class="caption">Our classified corn (blue) and USDA’s 1 October harvested-for-grain area (open), each as a difference from USDA’s June planted acres (the line at zero). Our map counts all corn, grain and silage alike.</p>
+        </figure>
+
+        <div class="two-col" style="margin-top:22px">
+          <article class="card white reveal">
+            <div class="card-label">Production: area × yield</div>
+            <h3 style="margin-top:10px">8.01 billion bushels on our map; 7.89 from USDA.</h3>
+            <p class="muted">Our production multiplies our yield by our mapped area, all corn included. On USDA’s harvested-for-grain area the same yield gives 7.80 billion bushels, against USDA’s 7.89: the 1.2% yield gap again. Most of the area difference is Wisconsin silage.</p>
+          </article>
+          <article class="card white reveal">
+            <div class="card-label">How the area is measured</div>
+            <h3 style="margin-top:10px">One pixel count, no survey calibration.</h3>
+            <p class="muted">A weekly corn/soybean classifier on 30 m HLS imagery, refined to a 5 m field map and counted inside county lines. The ±0.07 M acre interval is classification error from the map’s error matrix, not sampling error. USDA’s June figure is used only for this comparison.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="record" aria-labelledby="record-title">
+      <div class="shell">
+        <div class="section-head">
+          <div class="section-number">05 / RECORD</div>
+          <div>
+            <p class="eyebrow">Eight seasons, each held out in turn</p>
+            <h2 id="record-title">The model has read low every year. 2026 looks the same so far.</h2>
+            <p class="body-large measure">The production recipe was trained eight times, each time with one season held out, and scored on that season against NASS county yields: 2,690 county-years in the five states, 2018–2025, at the 1 September cutoff nearest our 7 September issue. County by county it tracks NASS closely (r = 0.78). In total it comes in low, below NASS in all eight seasons, by 4.6 bu/ac on average (from 0.7 to 10.2).</p>
+          </div>
+        </div>
+
+        <figure class="card white figure-plate reveal">
+          <div class="card-topline">
+            <figcaption>
+              <div class="card-label">The eight-season record</div>
+              <h3 style="margin-top:8px">Held out year by year, against NASS.</h3>
+            </figcaption>
+            <span class="tag association">Hindcast</span>
+          </div>
+          <a href="figures/evidence/e5_track.png" target="_blank" rel="noopener" style="display:block;margin-top:18px"><picture><source media="(max-width:680px)" srcset="figures/evidence/m/e5_track.png"><img src="figures/evidence/e5_track.png" alt="Two bar charts. Left: five-state yield minus NASS for each held-out season, all negative: −2.3, −3.4, −0.7, −10.2, −2.1, −5.9, −10.1, −2.2 bushels per acre, mean −4.6, and 2026's gap to USDA's October forecast of −2.4. Right: county correlation with NASS by season, from 0.67 to 0.83." loading="lazy" style="width:100%;height:auto;display:block"></picture></a>
+          <p class="caption">Left: each held-out season’s five-state yield minus NASS, both averaged over the sampled counties. The hatched bar is 2026’s gap to USDA’s October forecast: a forecast against a forecast, not yet a result. Right: the county correlation with NASS in each season; dashed, pooled over all eight.</p>
+        </figure>
+
+        <div class="validation" style="margin-top:22px">
+          <article class="card white validation-main reveal">
+            <div class="card-topline"><span class="card-label">Leave-one-year-out, county level</span><span class="tag association">n = 2,690</span></div>
+            <div class="validation-stat">r = .78</div>
+            <p class="body-large" style="margin:18px 0 0">County forecasts against NASS county yields, 2018–2025, each season predicted by a model that never saw it.</p>
+            <div class="validation-grid">
+              <div class="validation-mini"><b>−4.6</b><span>mean five-state offset, bu/ac</span></div>
+              <div class="validation-mini"><b>3.7</b><span>its year-to-year spread (sd), bu/ac</span></div>
+              <div class="validation-mini"><b>8 of 8</b><span>seasons below NASS</span></div>
+            </div>
+            <p class="caption" style="margin:18px 0 0">Scored on 8 September 2026, before USDA’s September report. County RMSE 1.14 t/ha (about 18 bu/ac). The truth here is NASS county yields over the sampled counties, not the NASS state totals.</p>
+          </article>
+          <aside class="card reveal">
+            <div class="card-label">What the offset means for 2026</div>
+            <h3 style="margin-top:9px">A sensitivity, not a revised call.</h3>
+            <div class="missing-metrics">
+              <div class="missing-metric done"><b>195.4–208.4</b>The call’s 90% interval: ±1.645 × the model’s calibrated unseen-year error (0.25 t/ha at this cutoff), the year-level error that county noise does not average away. It is centred on the call and does not include the offset.</div>
+              <div class="missing-metric done"><b>206.5 (200.4–212.7)</b>Where the NASS final would land if 2026 behaves like the held-out seasons: the published call plus the average offset, with the year-to-year spread.</div>
+              <div class="missing-metric done"><b>201.9</b>The record of the call stays at the published number. Applying the offset now, after USDA’s October forecast, would make the test less clean; both ranges will be scored.</div>
+              <div class="missing-metric">Still missing: a frozen-prediction history. It starts with this issue; every later season adds one pre-registered test.</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="chain-title">
+      <div class="shell">
+        <div class="section-head">
+          <div class="section-number">06 / METHOD</div>
+          <div>
+            <p class="eyebrow">From observation to supply</p>
+            <h2 id="chain-title">One traceable chain, with observed and inferred quantities kept separate.</h2>
+            <p class="body-large measure">Satellite reflectance is observed. The corn map, the yield and its uncertainty are modelled. Showing the steps makes the result easier to question and harder to overstate.</p>
+          </div>
+        </div>
+
+        <div class="chain reveal" aria-label="Evidence production chain">
+          <article class="chain-step"><div class="step-no">01 · OBSERVED</div><div class="step-title">Satellite reflectance</div><div class="step-copy">ESA Sentinel-2 surface reflectance, every clear acquisition from 1 April to 7 September, with cloud masks and per-scene sun and view angles.</div></article>
+          <article class="chain-step"><div class="step-no">02 · DERIVED</div><div class="step-title">Corn map</div><div class="step-copy">A weekly corn/soybean/other classifier on 30 m HLS imagery, refined to a 5 m field map; data to 3 September.</div></article>
+          <article class="chain-step"><div class="step-no">03 · MODELLED</div><div class="step-title">Pixel yield</div><div class="step-copy">A recurrent network reads each 10 m pixel’s clear-sky sequence to 7 September and returns yield and its uncertainty. No weather or survey input.</div></article>
+          <article class="chain-step"><div class="step-no">04 · AGGREGATED</div><div class="step-title">County and state</div><div class="step-copy">Pixel forecasts averaged over classified corn. A county is published only if at least 99.5% of its corn has a forecast.</div></article>
+          <article class="chain-step"><div class="step-no">05 · CALCULATED</div><div class="step-title">Production</div><div class="step-copy">Mapped corn area multiplied by forecast yield.</div></article>
+          <article class="chain-step"><div class="step-no">06 · TESTED</div><div class="step-title">External evidence</div><div class="step-copy">USDA’s monthly forecasts now; the NASS final state yields in January and county yields later in 2027.</div></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="audit" aria-labelledby="audit-title">
+      <div class="shell">
+        <div class="section-head">
+          <div class="section-number">07 / AUDIT</div>
+          <div>
+            <p class="eyebrow">A forecast should leave a record</p>
+            <h2 id="audit-title">Traceability becomes real when the original call cannot quietly change.</h2>
+            <p class="body-large measure">A reader should be able to retrieve the data cutoff, model version, scope and uncertainty method after the harvest outcome is known. The audit card below is the minimum public record.</p>
+          </div>
+        </div>
+
+        <div class="audit">
+          <div class="audit-record reveal" aria-label="Forecast audit card">
+            <div class="audit-row"><div>Forecast ID</div><div><strong>USMZ26-2026-09-07</strong></div></div>
+            <div class="audit-row"><div>Published</div><div>16 September 2026, 13:32 UTC, on maize.rayx.co.uk; unchanged since</div></div>
+            <div class="audit-row"><div>Earlier version</div><div>12 September 2026: 204.9 bu/ac on 361 counties, before the yield run covered the five states; superseded on 16 September</div></div>
+            <div class="audit-row"><div>Evidence compiled</div><div>4 November 2026</div></div>
+            <div class="audit-row"><div>Yield imagery cutoff</div><div>7 September 2026 · day 250</div></div>
+            <div class="audit-row"><div>Crop-map imagery</div><div>to 3 September 2026 (day 246) · classifier cutoff 27 August (day 239)</div></div>
+            <div class="audit-row"><div>Geographic target</div><div>Iowa, Illinois, Minnesota, Missouri, Wisconsin · 474 of 475 counties</div></div>
+            <div class="audit-row"><div>Crop target</div><div>Corn on the 5 m map, grain and silage; USDA’s yields are corn harvested for grain</div></div>
+            <div class="audit-row"><div>Five-state call</div><div><strong>201.9 bu/ac</strong> (12.68 t/ha), 90%: 195.4–208.4</div></div>
+            <div class="audit-row"><div>State calls</div><div>Iowa 211.1 · Illinois 202.1 · Minnesota 203.7 · Missouri 177.2 · Wisconsin 188.9 bu/ac</div></div>
+            <div class="audit-row"><div>Area and production</div><div>39.68 M acres (95%: ±0.07 M, classification error only) · 8.01 bn bu</div></div>
+            <div class="audit-row"><div>Model version</div><div>US in-season GRU, 2026 production checkpoint (inseason_finit_prod) · σ calibration inseason_finit_sig</div></div>
+            <div class="audit-row"><div>Validation</div><div>Leave-one-year-out against NASS county yields, 2018–2025: r 0.78, RMSE 1.14 t/ha, five-state offset −4.6 bu/ac (not applied)</div></div>
+            <div class="audit-row"><div>Uncertainty method</div><div>90% = ±1.645 × the unseen-year error (0.25 t/ha, calibrated at the 1 September cutoff) · per-pixel σ on the map</div></div>
+            <div class="audit-row"><div>Archive</div><div><a href="manifest.json">The published manifest (JSON)</a> · working-repository commit 70eb538</div></div>
+          </div>
+
+          <article class="reveal">
+            <div class="card-label">Pre-registered final evaluation</div>
+            <h3 style="margin-top:10px">The test is set now, before USDA publishes its 2026 final.</h3>
+            <div class="test-list">
+              <div class="test-item">The test of record: NASS’s January final for the five states, weighted by harvested area, against the 201.9 call. Does it land inside 195.4–208.4, and how far from the call?</div>
+              <div class="test-item">The offset-adjusted range (200.4–212.7) is scored too, and reported as a sensitivity.</div>
+              <div class="test-item">Each state is scored against its own NASS final. The state errors and their pattern are reported, not averaged away.</div>
+              <div class="test-item">When NASS publishes 2026 county yields, the 474 county forecasts are scored. The held-out record expects a correlation near 0.78 and an RMSE near 1.14 t/ha.</div>
+              <div class="test-item">Area is scored on its own, against NASS’s final planted acres.</div>
+              <div class="test-item">This issue stays frozen. The final benchmark, the errors and their diagnosed causes will be published beside it, without rewriting this record.</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="conclusion" aria-labelledby="conclusion-title">
+      <div class="shell">
+        <p class="eyebrow" style="color:rgba(255,255,255,.5)">What this record adds</p>
+        <h2 id="conclusion-title">Not another forecast number. A call that can be checked, county by county.</h2>
+        <p class="lead">Two numbers leave this page: 201.9 bu/ac, the published five-state call, and its 90% interval, 195.4–208.4. USDA’s survey sits at 204.3, inside it. In every held-out season the model has read low. January will tell.</p>
+        <div class="cta-row">
+          <a class="button" href="https://maize.rayx.co.uk/" target="_blank" rel="noopener">Explore the 2026 field map
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a class="button secondary" href="#audit">Open the frozen forecast record</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="sources">
+    <div class="shell">
+      <div class="sources-grid">
+        <div>
+          <div class="brand" style="color:white"><span class="brand-mark" style="border-color:white"><span></span></span><span>Evidence sources</span></div>
+          <p class="small" style="margin-top:16px;color:rgba(255,255,255,.55)">Every number on this page traces to the sources below, each read with its own target, cutoff, coverage and basis kept attached.</p>
+        </div>
+        <div class="source-links">
+          <a href="https://maize.rayx.co.uk/">The live field map</a>
+          <a href="manifest.json">The published forecast (JSON)</a>
+          <a href="https://esmis.nal.usda.gov/sites/default/release-files/796015/crop0826.pdf">USDA NASS Crop Production, 12 August 2026</a>
+          <a href="https://esmis.nal.usda.gov/sites/default/release-files/796056/crop0926.pdf">USDA NASS Crop Production, 11 September 2026</a>
+          <a href="https://esmis.nal.usda.gov/sites/default/release-files/796123/crop1026.pdf">USDA NASS Crop Production, 9 October 2026 (reissued 23 October)</a>
+          <a href="https://esmis.nal.usda.gov/sites/default/release-files/795961/acrg0626.txt">USDA NASS Acreage, 30 June 2026</a>
+          <a href="https://www.profarmer.com/news/live/live-coverage-pro-farmer-crop-tour-sweeps-across-iowa-and-minnesota">Pro Farmer Crop Tour recap, 20 August 2026</a>
+        </div>
+      </div>
+      <div class="disclaimer" style="color:rgba(255,255,255,.78)"><b>US maize in-season yield &amp; area forecast · © RayX EO 2026.</b> Our forecast data are licensed CC BY-NC 4.0: free for research and other non-commercial use with attribution. Contains modified Copernicus Sentinel-2 data. USDA figures are from the NASS reports listed above.</div>
+      <div class="disclaimer" style="margin-top:16px;border-top:0;padding-top:0">Sentinel-2 reflectance is directly observed. The corn map, yield and uncertainty are model estimates, not measurements. State and five-state aggregates are more stable than the forecast for one county or one field.</div>
+    </div>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+</body>
+</html>
